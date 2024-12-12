@@ -22,7 +22,7 @@ export const { handlers, signIn, signOut } = NextAuth({
     // セッションコールバック: セッション情報にユーザー ID を追加
     async session({ session, token }) {
       if (token.id) {
-        session.user.id = token.id; // セッションにユーザー ID を保存
+        session.user.id = token.id as string; // セッションにユーザー ID を保存
       }
       return session;
     },

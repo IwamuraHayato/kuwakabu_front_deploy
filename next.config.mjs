@@ -7,6 +7,7 @@ const nextConfig = {
 export default nextConfig;
 
 
+
 // エラー対応で下記一度コメントアウト
 // import withPWA from "next-pwa";
 

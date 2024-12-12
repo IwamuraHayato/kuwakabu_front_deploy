@@ -7,7 +7,7 @@ export default function SignOut() {
   return (
     <button
       type="button"
-      onClick={() => signOut("github")}
+      onClick={() => signOut()}
       className="btn"
     >
       サインアウト
