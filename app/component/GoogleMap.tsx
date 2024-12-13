@@ -61,7 +61,7 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      let url = `${baseUrl}/map/posts`;
+      let url = 'tech0-gen-8-step3-app-py-16.azurewebsites.net/map/posts';
       // let url = "http://127.0.0.1:5000/map/posts";
       const params = new URLSearchParams();
 
@@ -104,8 +104,8 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
   // 投稿詳細を取得
   const fetchPostDetails = async (postId: number) => {
     try {
-      let url = `${baseUrl}/map/posts`;
-      const res = await fetch(`${baseUrl}/map/posts/${postId}`);
+      let url = 'https://tech0-gen-8-step3-app-py-16.azurewebsites.net/map/posts';
+      const res = await fetch(`https://tech0-gen-8-step3-app-py-16.azurewebsites.net/map/posts/${postId}`);
       if (!res.ok) {
         console.error("Failed to fetch post details");
         return;
