@@ -61,7 +61,7 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      let url = 'tech0-gen-8-step3-app-py-16.azurewebsites.net/map/posts';
+      let url = 'https://tech0-gen-8-step3-app-py-16.azurewebsites.net/map/posts';
       // let url = "http://127.0.0.1:5000/map/posts";
       const params = new URLSearchParams();
 
