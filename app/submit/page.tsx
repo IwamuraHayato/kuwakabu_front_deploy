@@ -4,7 +4,7 @@
 import { useState } from 'react';
 
 export default function PostPage() {
-  const [rows, setRows] = useState([
+  const [rows, setRows] = useState([ 
     { type: '', gender: '', count: '', maxSize: '' },
   ]);
   const [photos, setPhotos] = useState<File[]>([]);
@@ -12,6 +12,13 @@ export default function PostPage() {
   const [collectionPlace, setCollectionPlace] = useState('');
   const [weather, setWeather] = useState('');
   const [temperature, setTemperature] = useState('');
+  const [collectionMethod, setCollectionMethod] = useState('');
+  const [capturedTree, setCapturedTree] = useState('');
+  const [dangerousAnimals, setDangerousAnimals] = useState('');
+  const [surroundingFacilities, setSurroundingFacilities] = useState('');
+  const [memo, setMemo] = useState('');
+  const [crowdLevel, setCrowdLevel] = useState<'少ない' | '普通' | '多い' | '未選択'>('未選択');
+  const [forbiddenArea, setForbiddenArea] = useState<'該当する' | '該当しない' | '未選択'>('未選択'); // 採集禁止エリア
 
   const handleChange = (index: number, field: string, value: string) => {
     const updatedRows = [...rows];
@@ -41,11 +48,9 @@ export default function PostPage() {
 
   const fetchWeatherData = async (place: string) => {
     try {
-      // ここで場所を基に緯度と経度を取得 (Google Maps APIや他のジオコーディングサービスを使用)
       const lat = 35.6895; // 仮の緯度
       const lon = 139.6917; // 仮の経度
 
-      // OpenWeatherMap APIを使って天気と気温を取得
       const apiKey = 'c777ac6e80762c1fc32251893221ad75';
       const response = await fetch(
         `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`
@@ -74,6 +79,13 @@ export default function PostPage() {
     formData.append('collectionPlace', collectionPlace);
     formData.append('weather', weather);
     formData.append('temperature', temperature);
+    formData.append('collectionMethod', collectionMethod);
+    formData.append('capturedTree', capturedTree);
+    formData.append('dangerousAnimals', dangerousAnimals);
+    formData.append('surroundingFacilities', surroundingFacilities);
+    formData.append('memo', memo);
+    formData.append('crowdLevel', crowdLevel); // 追加
+    formData.append('forbiddenArea', forbiddenArea); // 採集禁止エリア
     photos.forEach((photo, index) => {
       formData.append(`photo${index + 1}`, photo);
     });
@@ -92,6 +104,13 @@ export default function PostPage() {
         setCollectionPlace('');
         setWeather('');
         setTemperature('');
+        setCollectionMethod('');
+        setCapturedTree('');
+        setDangerousAnimals('');
+        setSurroundingFacilities('');
+        setMemo('');
+        setCrowdLevel('未選択'); // リセット
+        setForbiddenArea('未選択'); // リセット
       } else {
         alert('エラーが発生しました。');
       }
@@ -100,20 +119,8 @@ export default function PostPage() {
     }
   };
 
-  const CollectionForm = () => {
-    return (
-      <form 
-        onSubmit={handleSubmit} 
-        style={{ backgroundColor: '#ECEAD8'}} // 背景色を指定
-        className="p-5"
-      >
-        {/* フォーム内容 */}
-      </form>
-    );
-  };
-
   return (
-    <div className="p-5 grid items-center justify-items-center">
+    <div className="p-5 grid items-center justify-items-center bg-[#ECEAD8]">
       <h1>投稿フォーム</h1>
       <form onSubmit={handleSubmit} className="w-full max-w-md space-y-4">
         <div className="mt-4">
@@ -146,6 +153,7 @@ export default function PostPage() {
               <option value="">性別</option>
               <option value="オス">オス</option>
               <option value="メス">メス</option>
+              <option value="両方">両方</option>
             </select>
             <input
               type="number"
@@ -155,14 +163,19 @@ export default function PostPage() {
               className="p-2 border rounded w-1/4"
               required
             />
+            <div className="relative">
             <input
               type="text"
               placeholder="最大サイズ"
               value={row.maxSize}
               onChange={(e) => handleChange(index, 'maxSize', e.target.value)}
-              className="p-2 border rounded w-1/4"
+              className="p-2 border rounded w-full pr-10" // 右余白を確保
               required
-            />
+              />
+              <span className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500">
+              ㎜
+              </span>
+            </div>
             <button
               type="button"
               onClick={() => removeRow(index)}
@@ -172,14 +185,13 @@ export default function PostPage() {
             </button>
           </div>
         ))}
-                <button
+        <button
           type="button"
           onClick={addRow}
           className="px-4 py-2 bg-green-500 text-white rounded"
         >
           ＋
         </button>
-        
 
         <div>
           <label className="block mb-2">採集日時</label>
@@ -191,6 +203,7 @@ export default function PostPage() {
             required
           />
         </div>
+
         <div>
           <label className="block mb-2">採集場所</label>
           <input
@@ -202,6 +215,7 @@ export default function PostPage() {
             required
           />
         </div>
+
         <div>
           <label className="block mb-2">天気</label>
           <input
@@ -211,6 +225,7 @@ export default function PostPage() {
             className="p-2 border rounded w-full bg-gray-100"
           />
         </div>
+
         <div>
           <label className="block mb-2">気温 (°C)</label>
           <input
@@ -221,14 +236,110 @@ export default function PostPage() {
           />
         </div>
 
+        <div>
+          <label className="block mb-2">採集方法</label>
+          <input
+            type="text"
+            value={collectionMethod}
+            onChange={(e) => setCollectionMethod(e.target.value)}
+            className="p-2 border rounded w-full"
+          />
+        </div>
 
+        <div>
+          <label className="block mb-2">捕まえた樹木</label>
+          <input
+            type="text"
+            value={capturedTree}
+            onChange={(e) => setCapturedTree(e.target.value)}
+            className="p-2 border rounded w-full"
+          />
+        </div>
+
+        <div>
+          <label className="block mb-2">危険動物</label>
+          <input
+            type="text"
+            value={dangerousAnimals}
+            onChange={(e) => setDangerousAnimals(e.target.value)}
+            className="p-2 border rounded w-full"
+          />
+        </div>
+
+        <div>
+          <label className="block mb-2">周辺施設</label>
+          <input
+            type="text"
+            value={surroundingFacilities}
+            onChange={(e) => setSurroundingFacilities(e.target.value)}
+            className="p-2 border rounded w-full"
+          />
+        </div>
+
+        <div>
+          <label className="block mb-2">メモ</label>
+          <textarea
+            value={memo}
+            onChange={(e) => setMemo(e.target.value)}
+            className="p-2 border rounded w-full"
+          />
+        </div>
+
+        <div>
+        <label className="block mb-2">混雑具合</label>
+        <div className="flex space-x-4">
         <button
-          type="submit"
-          className="px-4 py-2 bg-blue-500 text-white rounded w-full mt-4"
+        type="button"
+        onClick={() => setCrowdLevel('少ない')}
+        className={`px-4 py-2 rounded ${crowdLevel === '少ない' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
         >
-          投稿
+        少ない
         </button>
+        <button
+        type="button"
+        onClick={() => setCrowdLevel('普通')}
+        className={`px-4 py-2 rounded ${crowdLevel === '普通' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+        >
+        普通
+        </button>
+        <button
+        type="button"
+        onClick={() => setCrowdLevel('多い')}
+        className={`px-4 py-2 rounded ${crowdLevel === '多い' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+        >
+        多い
+        </button>
+        </div>
+        </div>
+
+        <div>
+          <label className="block mb-2">採集禁止エリア</label>
+          <div className="flex space-x-4">
+            <button
+              type="button"
+              onClick={() => setForbiddenArea('該当する')}
+              className={`px-4 py-2 rounded ${forbiddenArea === '該当する' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+            >
+              該当する
+            </button>
+            <button
+              type="button"
+              onClick={() => setForbiddenArea('該当しない')}
+              className={`px-4 py-2 rounded ${forbiddenArea === '該当しない' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+            >
+              該当しない
+            </button>
+          </div>
+        </div>
+
+        <div className="text-center">
+          <button type="submit" className="px-6 py-3 bg-green-500 text-white rounded">
+            投稿
+          </button>
+        </div>
       </form>
     </div>
   );
 }
+
+
