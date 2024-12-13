@@ -11,6 +11,8 @@ import {
 } from "@vis.gl/react-google-maps";
 import { useRouter } from "next/navigation"; // 修正: useRouter をインポート
 
+const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
+
 type PostData = {
   id: number;
   user_id: number;
@@ -59,7 +61,8 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      let url = "http://127.0.0.1:5000/map/posts";
+      let url = `${baseUrl}/map/posts`;
+      // let url = "http://127.0.0.1:5000/map/posts";
       const params = new URLSearchParams();
 
       if (searchTerm.trim() !== "") {
@@ -101,7 +104,8 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
   // 投稿詳細を取得
   const fetchPostDetails = async (postId: number) => {
     try {
-      const res = await fetch(`http://127.0.0.1:5000/map/post/${postId}`);
+      let url = `${baseUrl}/map/posts`;
+      const res = await fetch(`${baseUrl}/map/posts/${postId}`);
       if (!res.ok) {
         console.error("Failed to fetch post details");
         return;
