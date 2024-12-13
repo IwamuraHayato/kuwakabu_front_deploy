@@ -17,5 +17,6 @@ export async function middleware(req) {
 }
 
 export const config = {
-  matcher: ["/mypage/:path*", "/mypage", "/submit", ], // `/mypage` とその配下を対象
+  // matcher: ["/mypage/:path*", "/mypage", "/submit", ],
+  matcher: [], 
 };
