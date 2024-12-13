@@ -7,17 +7,6 @@ import { useRouter } from "next/navigation"; // ルーティング機能
 
 export default function Home() {
   const [data, setData] = useState(null);  // `data`状態変数を定義。バックエンドから取得したデータを保存します。
-  const fetchData = async () => {
-    try {
-      const res = await fetch('http://127.0.0.1:5000/insect_data'); // バックエンドAPI（ローカルサーバー）からデータを取得。
-      const data = await res.json(); // 取得したデータをJSON形式に変換。
-      console.log("Backendからの取得DATA:", data); // コンソールにデータを出力（デバッグ用）。
-      setData(data); // `data`状態変数に取得したデータを保存。
-    } catch (error) {
-      console.error('データの取得に失敗しました：', error); // エラーが発生した場合、エラーメッセージをコンソールに出力。
-    }
-  };
-
   const router = useRouter();
 
 // 検索欄の入力情報を保持する
