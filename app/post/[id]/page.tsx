@@ -51,7 +51,8 @@ const PostPage = () => {
 
     useEffect(() => {
         // 環境変数からバックエンドURLを取得
-        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+        const backendUrl ="https://tech0-gen-8-step3-app-py-16.azurewebsites.net"
+        // const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
         //const backendUrl = "http://127.0.0.1:5000"; // ハードコード
 
         console.log('Backend URL:', backendUrl); // デバッグ用に追加

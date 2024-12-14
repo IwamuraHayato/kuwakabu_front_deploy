@@ -130,8 +130,8 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
   return (
     <div style={{ height: "90%", width: "100%" }}>
       <APIProvider
-        // apiKey={"AIzaSyBMfzoWS9VrllIqFtNGERqBsVknX-9O9fM"}
-        apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
+        apiKey={"AIzaSyBMfzoWS9VrllIqFtNGERqBsVknX-9O9fM"}
+        // apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
         onLoad={() => console.log("Maps API has loaded.")}
       >
         <Map

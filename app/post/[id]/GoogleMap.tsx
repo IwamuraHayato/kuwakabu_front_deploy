@@ -34,7 +34,9 @@ const GoogleMap: React.FC<GoogleMapProps> = ({ latitude, longitude, mapWidth = "
     return (
         <div style={{ height: mapHeight, width: mapWidth }}>
             <APIProvider
-                apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""} // 環境変数から API キーを取得
+                
+                apiKey={"AIzaSyBMfzoWS9VrllIqFtNGERqBsVknX-9O9fM"}
+                // apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""} // 環境変数から API キーを取得
                 onLoad={() => console.log("Maps API has loaded.")}
             >
                 <Map
