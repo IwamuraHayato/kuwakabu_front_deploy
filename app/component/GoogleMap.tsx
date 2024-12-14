@@ -61,6 +61,7 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
+      console.log("API Base URL:", process.env.NEXT_PUBLIC_API_BASE_URL);
       let url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/map/posts`;
       // let url = "http://127.0.0.1:5000/map/posts";
       const params = new URLSearchParams();
