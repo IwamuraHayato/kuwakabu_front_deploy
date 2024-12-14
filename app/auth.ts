@@ -28,6 +28,7 @@ export const { handlers, signIn, signOut } = NextAuth({
     },
   },
   secret: process.env.AUTH_SECRET, // Auth.js の秘密鍵を指定
+  trustHost: true, 
 });
 
 // ミドルウェアとして認証チェックを行う関数を追加
