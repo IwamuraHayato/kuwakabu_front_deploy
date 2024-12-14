@@ -11,7 +11,7 @@ import {
 } from "@vis.gl/react-google-maps";
 import { useRouter } from "next/navigation"; // 修正: useRouter をインポート
 
-const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
+// const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
 
 type PostData = {
   id: number;
@@ -62,7 +62,8 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
     const fetchData = async () => {
       setLoading(true);
       console.log("API Base URL:", process.env.NEXT_PUBLIC_API_BASE_URL);
-      let url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/map/posts`;
+      let url = "https://tech0-gen-8-step3-app-py-16.azurewebsites.net/map/posts";
+      // let url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/map/posts`;
       // let url = "http://127.0.0.1:5000/map/posts";
       const params = new URLSearchParams();
 
@@ -105,8 +106,10 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
   // 投稿詳細を取得
   const fetchPostDetails = async (postId: number) => {
     try {
-      let url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/map/posts`;
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/map/posts/${postId}`);
+      let url = "https://tech0-gen-8-step3-app-py-16.azurewebsites.net/map/posts";
+      // let url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/map/posts`;
+      const res = await fetch(`https://tech0-gen-8-step3-app-py-16.azurewebsites.net/map/posts/${postId}`);
+      // const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/map/posts/${postId}`);
       if (!res.ok) {
         console.error("Failed to fetch post details");
         return;
