@@ -91,7 +91,11 @@ export default function PostPage() {
     });
 
     try {
-      const response = await fetch('http://127.0.0.1:5000/api/posts', {
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL; // 環境変数からURLを取得
+      if (!backendUrl) {
+        throw new Error("NEXT_PUBLIC_BACKEND_URL is not defined in environment variables.");
+      }
+      const response = await fetch(`${backendUrl}/api/posts`, {
         method: 'POST',
         body: formData,
       });

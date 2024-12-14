@@ -61,7 +61,7 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      let url = "http://127.0.0.1:5000/map/posts";
+      let url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/map/posts`;
       // let url = "http://127.0.0.1:5000/map/posts";
       const params = new URLSearchParams();
 
@@ -104,8 +104,8 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
   // 投稿詳細を取得
   const fetchPostDetails = async (postId: number) => {
     try {
-      let url = "http://127.0.0.1:5000/map/posts";
-      const res = await fetch(`http://127.0.0.1:5000/map/posts/${postId}`);
+      let url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/map/posts`;
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/map/posts/${postId}`);
       if (!res.ok) {
         console.error("Failed to fetch post details");
         return;
@@ -126,7 +126,8 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
   return (
     <div style={{ height: "90%", width: "100%" }}>
       <APIProvider
-        apiKey={"AIzaSyBMfzoWS9VrllIqFtNGERqBsVknX-9O9fM"}
+        // apiKey={"AIzaSyBMfzoWS9VrllIqFtNGERqBsVknX-9O9fM"}
+        apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
         onLoad={() => console.log("Maps API has loaded.")}
       >
         <Map
