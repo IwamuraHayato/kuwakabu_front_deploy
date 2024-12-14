@@ -47,7 +47,7 @@ const PostPage = () => {
     const [error, setError] = useState<string | null>(null); // エラーステートを追加
 
     // post_id を手動で 1 に設定
-    const post_id: number = 4;
+    const post_id: number = 5;
 
     useEffect(() => {
         // 環境変数からバックエンドURLを取得
@@ -72,6 +72,8 @@ const PostPage = () => {
                     throw new Error(errorData.error || 'ネットワーク応答に問題があります');
                 }
                 const data: Post = await response.json();
+                console.log("Fetched post data:", data); // 取得した投稿データ全体を確認
+                console.log("Species data:", data.species_data); // species_data を確認
                 setPost(data);
             } catch (error) {
                 console.error('投稿の取得中にエラーが発生しました:', error);
@@ -190,7 +192,7 @@ const PostPage = () => {
                                             <td className="border border-gray-300 px-2 py-1">{data[0]}</td>
                                             <td className="border border-gray-300 px-2 py-1">{data[1]}</td>
                                             <td className="border border-gray-300 px-2 py-1">{data[2]}</td>
-                                            <td className="border border-gray-300 px-2 py-1">{data[3]}</td>
+                                            <td className="border border-gray-300 px-2 py-1">{data[3]} mm</td>
                                         </tr>
                                     ))
                                 : (
