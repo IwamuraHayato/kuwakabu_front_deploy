@@ -135,29 +135,35 @@ export default function PostPage() {
         </div>
 
         {rows.map((row, index) => (
-          <div key={index} className="flex space-x-2 items-center">
+          <div key={index} className="mb-4">
+          {/* ラベル行 */}
+          <div className="flex space-x-2 items-center mb-2">
+            <div className="w-2/3 text-center font-semibold">種類</div>
+            <div className="w-1/4 text-center font-semibold">性別</div>
+            <div className="w-1/4 text-center font-semibold">数</div>
+            <div className="w-2/3 text-center font-semibold">最大サイズ</div>
+          </div>
+             {/* 入力欄 */}
+            <div className="flex space-x-2 items-center">
             <input
               type="text"
-              placeholder="種類"
               value={row.type}
               onChange={(e) => handleChange(index, 'type', e.target.value)}
-              className="p-2 border rounded w-1/4"
+              className="p-2 border rounded w-2/3"
               required
-            />
+              />
             <select
-              value={row.gender}
+            value={row.gender}
               onChange={(e) => handleChange(index, 'gender', e.target.value)}
-              className="p-2 border rounded w-1/4"
+              className="p-2 border rounded w-0.8/2"
               required
             >
-              <option value="">性別</option>
               <option value="オス">オス</option>
               <option value="メス">メス</option>
               <option value="両方">両方</option>
             </select>
             <input
               type="number"
-              placeholder="数"
               value={row.count}
               onChange={(e) => handleChange(index, 'count', e.target.value)}
               className="p-2 border rounded w-1/4"
@@ -166,16 +172,15 @@ export default function PostPage() {
             <div className="relative">
             <input
               type="text"
-              placeholder="最大サイズ"
               value={row.maxSize}
               onChange={(e) => handleChange(index, 'maxSize', e.target.value)}
-              className="p-2 border rounded w-full pr-10" // 右余白を確保
+              className="p-2 border rounded w-full pr-10" // 右側に余白を確保
               required
-              />
-              <span className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500">
+            />
+            <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
               ㎜
-              </span>
-            </div>
+            </span>
+          </div>
             <button
               type="button"
               onClick={() => removeRow(index)}
@@ -183,15 +188,22 @@ export default function PostPage() {
             >
               －
             </button>
-          </div>
-        ))}
+            </div>
+            </div>
+            ))}
+        <div className="flex justify-center mt-4">
+        
+        <div className="flex justify-center mt-4">
         <button
           type="button"
           onClick={addRow}
-          className="px-4 py-2 bg-green-500 text-white rounded"
+          className="w-10 h-10 bg-gray-200 text-black text-xl font-bold rounded-full shadow-md hover:bg-gray-300 transition-transform transform hover:scale-110 flex items-center justify-center"
         >
           ＋
         </button>
+      </div>
+        
+        </div>
 
         <div>
           <label className="block mb-2">採集日時</label>
@@ -286,7 +298,7 @@ export default function PostPage() {
         </div>
 
         <div>
-        <label className="block mb-2">混雑具合</label>
+        <label className="block mb-2">人の混み具合</label>
         <div className="flex space-x-4">
         <button
         type="button"
@@ -313,7 +325,7 @@ export default function PostPage() {
         </div>
 
         <div>
-          <label className="block mb-2">採集禁止エリア</label>
+          <label className="block mb-2">昆虫採集禁止エリア</label>
           <div className="flex space-x-4">
             <button
               type="button"
@@ -332,14 +344,22 @@ export default function PostPage() {
           </div>
         </div>
 
+       <div className="text-center">
+        <button
+        type="submit"
+        className="px-6 py-3 rounded-full bg-[#2C5F2D] text-white shadow-lg transition-transform transform hover:scale-105"
+        >
+        投稿する
+        </button>
+        </div>
+
         <div className="text-center">
           <button type="submit" className="px-6 py-3 bg-green-500 text-white rounded">
-            投稿
+            投稿  
           </button>
         </div>
+      
       </form>
     </div>
   );
 }
-
-
