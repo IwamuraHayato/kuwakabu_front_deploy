@@ -62,8 +62,9 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
     const fetchData = async () => {
       setLoading(true);
       console.log("API Base URL:", process.env.NEXT_PUBLIC_API_BASE_URL);
-      let url = "https://tech0-gen-8-step3-app-py-16.azurewebsites.net/map/posts";
-      // let url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/map/posts`;
+      // urlの変数設定をazureのdeployURLから2つ目の環境変数を呼び出すものに変えた
+      // let url = "https://tech0-gen-8-step3-app-py-16.azurewebsites.net/map/posts";
+      let url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/map/posts`;
       // let url = "http://127.0.0.1:5000/map/posts";
       const params = new URLSearchParams();
 
@@ -106,10 +107,11 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
   // 投稿詳細を取得
   const fetchPostDetails = async (postId: number) => {
     try {
-      let url = "https://tech0-gen-8-step3-app-py-16.azurewebsites.net/map/posts";
-      // let url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/map/posts`;
-      const res = await fetch(`https://tech0-gen-8-step3-app-py-16.azurewebsites.net/map/posts/${postId}`);
-      // const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/map/posts/${postId}`);
+      // どちらもurlの変数設定をazureのdeployURLから2つ目の環境変数を呼び出すものに変えた
+      // let url = "https://tech0-gen-8-step3-app-py-16.azurewebsites.net/map/posts";
+      let url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/map/posts`;
+      // const res = await fetch(`https://tech0-gen-8-step3-app-py-16.azurewebsites.net/map/posts/${postId}`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/map/posts/${postId}`);
       if (!res.ok) {
         console.error("Failed to fetch post details");
         return;
@@ -130,7 +132,7 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
   return (
     <div style={{ height: "90%", width: "100%" }}>
       <APIProvider
-        apiKey={"AIzaSyBMfzoWS9VrllIqFtNGERqBsVknX-9O9fM"}
+        apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""} // 環境変数から API キーを取得
         // apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
         onLoad={() => console.log("Maps API has loaded.")}
       >
