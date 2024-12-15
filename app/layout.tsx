@@ -24,7 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   // ヘッダーとフッターを非表示にするページ
   const hideBothPaths = ["/post", "/login", "/login/register"];
   // ヘッダーのみ非表示にするページ
-  const hideHeaderPaths = ["/map","/map/filter"];
+  const hideHeaderPaths = ["/map"];
 
   // 判定ロジック
   const isBothHidden = hideBothPaths.includes(pathname);
