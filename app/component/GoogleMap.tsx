@@ -1,4 +1,3 @@
-// frontend/app/component/GoogleMap.tsx
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -9,9 +8,7 @@ import {
   InfoWindow,
   Pin,
 } from "@vis.gl/react-google-maps";
-import { useRouter } from "next/navigation"; // 修正: useRouter をインポート
-
-// const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
+import { useRouter } from "next/navigation";
 
 type PostData = {
   id: number;
@@ -53,19 +50,19 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
   const [mapCenter, setMapCenter] = useState<{ lat: number; lng: number } | null>(
     null
   );
+  const [mapZoom, setMapZoom] = useState(defaultZoom); // ズームレベルの状態管理
   const [selectedPost, setSelectedPost] = useState<PostDetails | null>(null);
   const [loading, setLoading] = useState(true);
-  const router = useRouter(); // 修正: router を初期化
+  const [noResults, setNoResults] = useState(false); // 検索結果がないかどうか
+  const router = useRouter();
 
-  // 投稿データを取得
+  const DEFAULT_LAT = 35.681236;
+  const DEFAULT_LNG = 139.767125;
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      console.log("API Base URL:", process.env.NEXT_PUBLIC_API_BASE_URL);
-      // urlの変数設定をazureのdeployURLから2つ目の環境変数を呼び出すものに変えた
-      // let url = "https://tech0-gen-8-step3-app-py-16.azurewebsites.net/map/posts";
       let url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/map/posts`;
-      // let url = "http://127.0.0.1:5000/map/posts";
       const params = new URLSearchParams();
 
       if (searchTerm.trim() !== "") {
@@ -86,12 +83,26 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
         const { posts = [], max_post } = await res.json();
         setPosts(posts);
 
-        if (centerLat !== null && centerLng !== null) {
-          setMapCenter({ lat: centerLat, lng: centerLng });
-        } else if (max_post) {
-          const maxPost = posts.find((post) => post.id === max_post);
-          if (maxPost) {
-            setMapCenter({ lat: maxPost.latitude, lng: maxPost.longitude });
+        if (posts.length === 0) {
+          setNoResults(true);
+          setMapZoom(defaultZoom);
+          if (!centerLat || !centerLng) {
+            setMapCenter({ lat: DEFAULT_LAT, lng: DEFAULT_LNG });
+          }
+        } else {
+          setNoResults(false);
+          if (centerLat !== null && centerLng !== null) {
+            setMapCenter({ lat: centerLat, lng: centerLng });
+            setMapZoom(12);
+          } else if (max_post) {
+            const maxPost = posts.find((post) => post.id === max_post);
+            if (maxPost) {
+              setMapCenter({ lat: maxPost.latitude, lng: maxPost.longitude });
+              setMapZoom(12);
+            }
+          } else {
+            setMapCenter({ lat: posts[0].latitude, lng: posts[0].longitude });
+            setMapZoom(12);
           }
         }
       } catch (error) {
@@ -104,14 +115,9 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
     fetchData();
   }, [searchTerm, centerLat, centerLng]);
 
-  // 投稿詳細を取得
   const fetchPostDetails = async (postId: number) => {
     try {
-      // どちらもurlの変数設定をazureのdeployURLから2つ目の環境変数を呼び出すものに変えた
-      // let url = "https://tech0-gen-8-step3-app-py-16.azurewebsites.net/map/posts";
-      let url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/map/posts`;
-      // const res = await fetch(`https://tech0-gen-8-step3-app-py-16.azurewebsites.net/map/posts/${postId}`);
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/map/posts/${postId}`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/map/post/${postId}`);
       if (!res.ok) {
         console.error("Failed to fetch post details");
         return;
@@ -124,22 +130,37 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
     }
   };
 
-  // ローディング中
-  if (loading || !mapCenter) {
-    return <p>マップを読み込んでいます...</p>;
-  }
-
   return (
-    <div style={{ height: "90%", width: "100%" }}>
+    <div style={{ height: "90%", width: "100%", position: "relative" }}>
+      {noResults && (
+        <div
+          style={{
+            position: "absolute",
+            top: "0",
+            left: "0",
+            width: "100%",
+            height: "100%",
+            zIndex: 10,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "rgba(255, 255, 255, 0.8)",
+          }}
+        >
+          <p style={{ fontSize: "16px", color: "#555", fontWeight: "bold" }}>
+            検索結果がありませんでした
+          </p>
+        </div>
+      )}
+
       <APIProvider
         apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""} // 環境変数から API キーを取得
-        // apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
         onLoad={() => console.log("Maps API has loaded.")}
       >
         <Map
           mapId={"8527f8af06fe26a9"}
-          defaultZoom={defaultZoom}
-          defaultCenter={mapCenter}
+          zoom={mapZoom}
+          center={mapCenter || { lat: DEFAULT_LAT, lng: DEFAULT_LNG }}
         >
           {posts.map((post) => (
             <AdvancedMarker
@@ -151,47 +172,63 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
             </AdvancedMarker>
           ))}
 
-          {/* 吹き出し（InfoWindow） */}
           {selectedPost && (
             <InfoWindow
               position={{
                 lat: selectedPost.location.latitude,
                 lng: selectedPost.location.longitude,
               }}
-              onCloseClick={() => setSelectedPost(null)} // 吹き出しを閉じる
+              onCloseClick={() => setSelectedPost(null)}
             >
               <div
                 style={{
                   display: "flex",
-                  maxWidth: "300px",
-                  alignItems: "stretch",
-                  cursor: "pointer", // クリック可能なデザイン
+                  maxWidth: "320px",
+                  padding: "10px",
+                  backgroundColor: "#fff",
+                  boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                  borderRadius: "10px",
+                  overflow: "hidden",
+                  cursor: "pointer",
                 }}
-                onClick={() => router.push(`/post/${selectedPost.id}`)} // 修正: クリックで詳細ページへ遷移
+                onClick={() => router.push(`/post/${selectedPost.id}`)}
               >
-                {/* 画像部分 */}
-                <div style={{ flex: "1", marginRight: "10px", display: "flex", alignItems: "center" }}>
+                <div
+                  style={{
+                    flex: "0 0 100px",
+                    height: "100px",
+                    overflow: "hidden",
+                    borderRadius: "8px",
+                    marginRight: "10px",
+                  }}
+                >
                   <img
                     src={selectedPost.image_url || "/src/no-image-icon.svg"}
                     alt="投稿画像"
                     style={{
-                      width: "100px",
-                      height: "auto",
-                      maxHeight: "100%",
+                      width: "100%",
+                      height: "100%",
                       objectFit: "cover",
-                      borderRadius: "8px",
                     }}
                   />
                 </div>
-
-                {/* テキスト部分 */}
-                <div style={{ flex: "2", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                <div
+                  style={{
+                    flex: "1",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                  }}
+                >
                   <h4
                     style={{
-                      margin: "0",
+                      margin: "0 0 5px 0",
                       fontWeight: "bold",
-                      fontSize: "medium",
-                      color: "black",
+                      fontSize: "16px",
+                      color: "#333",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
                     }}
                   >
                     {selectedPost.location.name}
@@ -199,9 +236,14 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
                   <p
                     style={{
                       margin: "5px 0",
-                      fontWeight: "bold",
-                      fontSize: "small",
-                      color: "black",
+                      fontSize: "14px",
+                      color: "#555",
+                      lineHeight: "1.4",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      display: "-webkit-box",
+                      WebkitBoxOrient: "vertical",
+                      WebkitLineClamp: 2,
                     }}
                   >
                     {selectedPost.species_names.join(" / ") || "種情報なし"}
@@ -209,9 +251,8 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
                   <p
                     style={{
                       margin: "5px 0",
-                      fontWeight: "normal",
-                      fontSize: "small",
-                      color: "black",
+                      fontSize: "12px",
+                      color: "#888",
                     }}
                   >
                     {selectedPost.collected_at || "不明な採集日"}
@@ -219,14 +260,19 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
                   <p
                     style={{
                       margin: "5px 0",
-                      fontWeight: "normal",
-                      fontSize: "small",
-                      color: "black",
+                      fontSize: "12px",
+                      color: "#666",
                     }}
                   >
                     {selectedPost.description || "説明がありません"}
                   </p>
-                  <div style={{ display: "flex", alignItems: "center", marginTop: "10px" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      marginTop: "10px",
+                    }}
+                  >
                     <img
                       src={selectedPost.user.icon || "/src/face-icon.svg"}
                       alt="ユーザーアイコン"
@@ -239,9 +285,9 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
                     />
                     <span
                       style={{
-                        fontWeight: "normal",
-                        fontSize: "small",
-                        color: "black",
+                        fontSize: "14px",
+                        color: "#333",
+                        fontWeight: "500",
                       }}
                     >
                       {selectedPost.user.name || "匿名"}
