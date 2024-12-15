@@ -30,7 +30,7 @@ export default function Page() {
     } else {
       setError(""); // エラーをクリア
       console.log("ログイン成功:", result);
-      router.push("/"); // ホームにリダイレクト
+      router.push("/login"); // ホームにリダイレクト
     }
   };
 
@@ -69,9 +69,6 @@ export default function Page() {
                   className="avatar inline-block size-16 rounded-full ring-2 ring-white"
                 />
               )}
-              <div>
-                <Button title="ホームに戻る" href="/" />
-              </div>
             </div>
           </div>
         </div>
@@ -142,19 +139,6 @@ export default function Page() {
               />
             </div>
           </form>
-          <p className="flex justify-center"> or </p>
-          <div className="mb-4">
-            <Button
-              title="GitHubでログイン"
-              onClick={() => signIn("github")}
-              bgColor="#24292e"
-              textColor="white"
-              hoverColor="#1f1f1f"
-            />
-          </div>
-          <div className="mt-4">
-            <Button title="ホームに戻る" href="/" />
-          </div>
         </div>
       </div>
     </div>

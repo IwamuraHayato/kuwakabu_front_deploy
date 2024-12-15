@@ -1,9 +1,15 @@
 // frontend/next.config.mjs
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    output: `standalone`
-}
-    module.exports = nextConfig
+    output: `standalone`,
+    images: {
+        domains: process.env.NODE_ENV === 'development'
+            ? ['127.0.0.1'] // 開発環境
+            : ['tech0-gen-8-step3-app-py-16.azurewebsites.net'], // 本番環境
+    },
+};
+
+module.exports = nextConfig;
 
 
 

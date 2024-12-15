@@ -1,66 +1,106 @@
-// `登録フォームのページ
-"use client"
-import { useRef } from 'react';
-import { useRouter } from 'next/navigation';
-
-import createCustomer from './createCustomer';
+// 登録フォームのページ
+"use client";
+import { useRef } from "react";
+import { useRouter } from "next/navigation";
+import Button from "../../component/Button";
+import createCustomer from "./createCustomer";
 
 export default function CreatePage() {
-    const formRef = useRef();
-    const router = useRouter();
+  const formRef = useRef();
+  const router = useRouter();
 
-    // const handleClick = (e) => {
-    //     if(e.target.value.length = 0 ){
-    //         alert("IDを入力してください！！");
-    //         return;
-    //     }
-    //     SetText(e.target.value);
-    // };
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(formRef.current);
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        const formData = new FormData(formRef.current);
-        console.log(formData.get("name"));
-        console.log(formData.get("collection_start_at"));
-        //追加したコード↓
-        if(formData.get("name") === ""){
-            alert("ニックネームを入力してください！！");
-            return
-        }
-        //追加したコード↑
-        
-        // データを作成して送信
-        const requestData = {
-            name: formData.get("name"),
-            collection_start_at: formData.get("collection_start_at")
-        };
+    if (formData.get("name") === "") {
+      alert("ニックネームを入力してください！！");
+      return;
+    }
 
-        console.log("Request Data:", requestData); // デバッグ用
-
-        // createCustomer を呼び出し
-        await createCustomer(requestData);
-        // router.push(`./create/confirm?customer_id=${formData.get("id")}`);
+    const requestData = {
+      name: formData.get("name"),
+      collection_start_at: formData.get("collection_start_at"),
     };
 
-    return (
-        <>
-            <div className="">
-                <div className="">
-                    <form ref={formRef} onSubmit={handleSubmit}>
-                        <div className="">
-                            <h2 className="flex justify-center">
-                                <p>ニックネーム:<input type="text" name="name" placeholder="クワカブ" className="" /></p>
-                            </h2>
-                            <p className='flex justify-center'>いつから最終を開始しましたか？:<input type="date" name="collection_start_at" placeholder="30" className="" /></p>
-                        </div>
-                        <div className="flex justify-center">
-                            <button type="submit" className="btn">
-                                登録する
-                            </button>
-                            
-                        </div>
-                    </form>
-                </div>
+    console.log("Request Data:", requestData); // デバッグ用
+
+    await createCustomer(requestData);
+    // router.push(`./create/confirm?customer_id=${formData.get("id")}`);
+  };
+
+  return (
+    <div>
+      <header className="flex items-center justify-between p-3 h-14 bg-white z-10">
+        <button onClick={() => router.push("/")} className="text-gray-500">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+        </button>
+      </header>
+      <div className="p-5 grid items-center justify-items-center bg-[#ECEAD8] text-gray-900 min-h-screen">
+        <img
+          src="/src/logo.png"
+          alt="クワカブトリタイ"
+          className="mx-auto mb-6 h-[133px]"
+        />
+        <div className="flex flex-col justify-center w-96">
+          <form ref={formRef} onSubmit={handleSubmit}>
+            <div className="mb-4">
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-700"
+              >
+                ニックネーム:
+              </label>
+              <input
+                type="text"
+                name="name"
+                id="name"
+                placeholder="クワカブ"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                required
+              />
             </div>
-        </>
-    )}
+            <div className="mb-4">
+              <label
+                htmlFor="collection_start_at"
+                className="block text-sm font-medium text-gray-700"
+              >
+                いつから採集を開始しましたか？:
+              </label>
+              <input
+                type="date"
+                name="collection_start_at"
+                id="collection_start_at"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                required
+              />
+            </div>
+            <div className="flex justify-center">
+              <Button
+                title="登録する"
+                type="submit"
+                bgColor="#3D6E55"
+                textColor="white"
+                hoverColor="#2F5544"
+                activeScale={0.95}
+              />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+}

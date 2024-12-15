@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from 'next/image';
 import { differenceInYears, differenceInMonths } from 'date-fns';
+import { useSession } from "next-auth/react";
+
 
 interface Post {
   id: number;
@@ -20,9 +22,14 @@ interface Post {
 const Page = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const { data: session } = useSession();
 
   // user_id を手動で設定
-  const user_id: number = 6;
+  // const user_id: number = 6;
+  const user_id: number | undefined = session?.user?.id ? parseInt(session.user.id) : undefined;
+  if (!user_id) {
+    console.error("User ID not found in session.");
+  }
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -74,7 +81,7 @@ const Page = () => {
           <div className="flex flex-col items-start space-y-2">
             {/* 左上: user_icon */}
             <Image
-              src={user.user_icon !== '-' ? user.user_icon : '/icons/user.svg'}
+              src={user.user_icon !== '-' ? `${process.env.NEXT_PUBLIC_BACKEND_URL}${user.user_icon}` : '/icons/user.svg'}
               alt={user.user_name || 'ユーザー'}
               width={117}  // 大きめに設定
               height={117}
