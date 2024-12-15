@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useParams } from "next/navigation"; // URL のパラメータ取得
 import Script from "next/script";
 import GoogleMap from "./GoogleMap";
 import Slider from "react-slick";
@@ -42,17 +43,16 @@ interface Post {
 }
 
 const PostPage = () => {
+    const { id } = useParams(); // 動的ルートから `id` を取得
     const [post, setPost] = useState<Post | null>(null);
     const [images, setImages] = useState<PostImage[]>([]);
     const [error, setError] = useState<string | null>(null); // エラーステートを追加
 
-    // post_id を手動で 1 に設定
-    const post_id: number = 5;
 
     useEffect(() => {
         // 環境変数からバックエンドURLを取得
-        const backendUrl ="https://tech0-gen-8-step3-app-py-16.azurewebsites.net"
-        // const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+        // const backendUrl ="https://tech0-gen-8-step3-app-py-16.azurewebsites.net"
+        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
         //const backendUrl = "http://127.0.0.1:5000"; // ハードコード
 
         console.log('Backend URL:', backendUrl); // デバッグ用に追加
@@ -63,17 +63,15 @@ const PostPage = () => {
             return;
         }
 
-        // `post_id` に基づいて投稿データをフェッチ
+        // `id` に基づいて投稿データをフェッチ
         const fetchPost = async () => {
             try {
-                const response = await fetch(`${backendUrl}/post/${post_id}`);
+                const response = await fetch(`${backendUrl}/post/${id}`);
                 if (!response.ok) {
                     const errorData = await response.json();
                     throw new Error(errorData.error || 'ネットワーク応答に問題があります');
                 }
                 const data: Post = await response.json();
-                console.log("Fetched post data:", data); // 取得した投稿データ全体を確認
-                console.log("Species data:", data.species_data); // species_data を確認
                 setPost(data);
             } catch (error) {
                 console.error('投稿の取得中にエラーが発生しました:', error);
@@ -81,7 +79,7 @@ const PostPage = () => {
             }
         };
         fetchPost();
-    }, [post_id]);
+    }, [id]);
 
 
     useEffect(() => {
@@ -133,7 +131,10 @@ const PostPage = () => {
     console.log("Post data:", post);
 
     return (
-        <div className="pb-[106px] min-h-screen py-0 px-0">
+        <div
+            className="pb-[106px] min-h-screen py-0 px-0 overflow-x-hidden"
+            style={{ maxWidth: "100%" }}
+        >
             {/* ユーザー */}
             <div className="flex items-center space-x-2 text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl font-roboto mt-2 ml-5">
                 <Image
