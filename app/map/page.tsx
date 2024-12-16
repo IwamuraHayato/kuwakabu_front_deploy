@@ -1,5 +1,5 @@
 "use client";
-
+import { Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import GoogleMap from "../component/GoogleMap";
 import { useState } from "react";
@@ -7,6 +7,13 @@ import { useState } from "react";
 export const dynamic = "force-dynamic";
 
 export default function MapPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <MapContent />
+    </Suspense>
+  );
+}
+function MapContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const initialSearchTerm = searchParams.get("search") || "";

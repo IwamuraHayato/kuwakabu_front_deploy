@@ -1,12 +1,21 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
 import Button from "../../component/Button";
+import { Suspense } from "react";
 
 export default function RegistrationCompletePage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <RegistrationContent />
+    </Suspense>
+  );
+}
+
+function RegistrationContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // クエリパラメータから取得
+  // クエリパラメータから値を取得
   const userId = searchParams.get("user_id");
   const password = searchParams.get("password");
 
@@ -30,14 +39,11 @@ export default function RegistrationCompletePage() {
           無くさないようにスクリーンショットを撮るかメモに保管してください。
         </p>
         <div className="space-y-4">
-          <Button
-            title="ホームに戻る"
-            onClick={() => router.push("/")}
-            bgColor="white"
-            textColor="black"
-            hoverColor="#F2F2F2"
-            borderColor="gray-400"
-          />
+        <Button
+          title="ホームに戻る"
+          onClick={() => router.push("/")}
+          href="/"
+        />
         </div>
       </main>
     </div>

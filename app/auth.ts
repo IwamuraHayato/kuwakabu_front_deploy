@@ -6,6 +6,12 @@ import { NextResponse } from "next/server";
 import Credentials from "next-auth/providers/credentials";
 import getUserFromDb from './login/getUserFromDb';
 
+// 型定義を明示的に追加
+interface CredentialsInput {
+  id: string;
+  password: string;
+}
+
 export const { handlers, signIn, signOut } = NextAuth({
   providers: [
     GitHub({
@@ -19,13 +25,14 @@ export const { handlers, signIn, signOut } = NextAuth({
       },
       async authorize(credentials) {
         // 入力されたユーザー名とパスワードのチェック
-        if (!credentials?.id || !credentials?.password) {
+        const { id, password } = credentials as CredentialsInput; // 型アサーションを追加
+        if (!id || !password) {
           throw new Error("id and password are required");
         }
     
         try {    
           // ユーザー名でユーザーを検索
-          const user = await getUserFromDb(credentials.id, credentials.password);
+          const user = await getUserFromDb(id, password);
     
           if (!user) {
             throw new Error("Invalid id or password");
