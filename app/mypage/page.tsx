@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from 'next/image';
 import { differenceInYears, differenceInMonths } from 'date-fns';
+import { useSession } from "next-auth/react";
+
 
 interface Post {
   id: number;
@@ -20,9 +22,14 @@ interface Post {
 const Page = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const { data: session } = useSession();
 
   // user_id を手動で設定
-  const user_id: number = 6;
+  // const user_id: number = 6;
+  const user_id: number | undefined = session?.user?.id ? parseInt(session.user.id) : undefined;
+  if (!user_id) {
+    console.error("User ID not found in session.");
+  }
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -34,6 +41,7 @@ const Page = () => {
           throw new Error(`Failed to fetch posts: ${response.status}`);
         }
         const data: Post[] = await response.json();
+        console.log("Fetched Posts Data:", data);
         setPosts(data);
       } catch (err: any) { // TypeScript の場合、エラーメッセージの型を明確にする
         setError(err.message || "Unknown error");
@@ -42,10 +50,12 @@ const Page = () => {
 
     fetchPosts();
   }, [user_id]);
-
+  
   // posts が空でない場合、最初の post からユーザー情報を取得
   const user = posts.length > 0 ? posts[0] : null;
-
+  console.log("User Data:", user);
+  console.log("Post Count:", user?.post_count);
+  
   // 経過年月を計算する関数
   const calculateElapsedMonths = (startDate: string): string => {
     const start = new Date(startDate);
@@ -75,7 +85,7 @@ const Page = () => {
           <div className="flex flex-col items-start space-y-2">
             {/* 左上: user_icon */}
             <Image
-              src={user.user_icon !== '-' ? user.user_icon : '/icons/user.svg'}
+              src={user.user_icon !== '-' ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/images/${user.user_icon}` : '/icons/user.svg'}
               alt={user.user_name || 'ユーザー'}
               width={117}  // 大きめに設定
               height={117}
@@ -117,7 +127,7 @@ const Page = () => {
                 className="bg-white rounded-[4px] shadow-lg w-[185px] h-[279px] cursor-pointer hover:shadow-xl transition-shadow"
               >
                 <Image
-                  src={"/gataro_images/IMG_9174.jpg"}
+                  src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/images/${post.image_urls[0]}`}
                   alt={post.species_name}
                   width={185}  // Image コンポーネントの width を設定
                   height={185} // Image コンポーネントの height を設定
