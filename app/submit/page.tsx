@@ -446,16 +446,10 @@ export default function PostPage() {
         <div className="text-center">
         <button
         type="submit"
-        className="w-full px-6 py-3 rounded-full bg-[#2C5F2D] text-white shadow-lg transition-transform transform hover:scale-105"
+        className="w-full mb-20 px-6 py-3 rounded-full bg-[#2C5F2D] text-white shadow-lg transition-transform transform hover:scale-105"
         >
         投稿する
         </button>
-        </div>
-
-        <div className="text-center">
-          <button type="submit" className="px-6 py-3 bg-green-500 text-white rounded">
-            投稿  
-          </button>
         </div>
     </form>
   </div>

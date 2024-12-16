@@ -35,8 +35,8 @@ const Page = () => {
     const fetchPosts = async () => {
       try {
         const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL; // 例: http://127.0.0.1:5000
-        // const response = await fetch(`${backendUrl}/mypage?user_id=${user_id}`);
-        const response = await fetch(`https://tech0-gen-8-step3-app-py-16.azurewebsites.net/mypage?user_id=${user_id}`);
+        const response = await fetch(`${backendUrl}/mypage?user_id=${user_id}`);
+        // const response = await fetch(`https://tech0-gen-8-step3-app-py-16.azurewebsites.net/mypage?user_id=${user_id}`);
         if (!response.ok) {
           throw new Error(`Failed to fetch posts: ${response.status}`);
         }

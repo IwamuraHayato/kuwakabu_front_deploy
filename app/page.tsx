@@ -58,40 +58,6 @@ export default function Home() {
     image: "/magazine/1/images/magazine_1_top.jpg",
   };
 
-// PWAアプリのインストール状態の変数
-  const [installPromptEvent, setInstallPromptEvent] = useState(null);
-
-  // PWAインストールイベントを監視
-  useEffect(() => {
-    const handleBeforeInstallPrompt = (event) => {
-      event.preventDefault(); // デフォルト動作を抑止
-      setInstallPromptEvent(event); // イベントを保存
-    };
-
-    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
-
-    return () => {
-      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
-    };
-  }, []);
-
-  // インストールプロンプトを表示
-  const handleInstallClick = () => {
-    if (installPromptEvent) {
-      installPromptEvent.prompt(); // プロンプトを表示
-      installPromptEvent.userChoice.then((choiceResult) => {
-        if (choiceResult.outcome === "accepted") {
-          console.log("PWA installed");
-        } else {
-          console.log("PWA installation dismissed");
-        }
-        setInstallPromptEvent(null); // イベントをクリア
-      });
-    } else {
-      alert("インストールバナーは現在利用できません。");
-    }
-  };
-
   return (
     <div className="bg-[#ECEAD8] text-gray-900 min-h-screen">
 
@@ -181,7 +147,7 @@ export default function Home() {
         </div>
       </section>
       {/* ABOUTセクション */}
-      <section className="py-8 px-4 bg-white">
+      <section className="py-8 px-4 mb-20 bg-white">
         <h2 className="text-3xl font-bold mb-2 text-center text-[#3D6E55]">ABOUT</h2>
         <p className="text-sm text-center font-bold mb-6">できること</p>
         <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -210,27 +176,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* APPセクション */}
-      <section className="py-8 px-4">
-        <h2 className="text-3xl font-bold mb-2 text-center text-[#3D6E55]">APP</h2>
-        <p className="text-sm text-center font-bold mb-6">アプリで探そう</p>
-        <div className="max-w-4xl mx-auto text-center">
-          <p className="mb-4 px-4">
-            インストールすると<br></br>
-            アプリをより手軽に利用できます
-          </p>
-          <Button
-            title="無料インストール"
-            href="/"
-            bgColor="#F1B300"
-            textColor="#000000"
-            hoverColor="#C88F00"
-            onClick={handleInstallClick} // PWAインストールプロンプトを呼び出す
-          />
-        </div>
-      </section>
-
       {/* フッター */}
       <footer className="bg-gray-900 text-white py-6 text-center">
       </footer>
