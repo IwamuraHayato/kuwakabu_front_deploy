@@ -204,9 +204,6 @@ const PostPage = () => {
                         </tbody>
                     </table>
                 </div>
-                <div className="grid grid-cols-2 mt-2">
-                    <p>虫種類 その他</p><p className="-mx-16">{post.species_info_species_other}</p>
-                </div>
                 {/* 採集情報 */}
                 <p className="text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl font-roboto mt-8 mb-4"><strong>採集情報</strong></p>
                 <div className="grid grid-cols-2">

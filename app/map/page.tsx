@@ -70,13 +70,6 @@ export default function MapPage() {
             検索
           </button>
         </div>
-
-        <button
-          onClick={() => router.push("/map/filter")}
-          className="bg-[#ECEAD8] p-2 rounded-full"
-        >
-          <img src="/src/filter-icon.svg" alt="Filter" className="h-5 w-5" />
-        </button>
       </header>
 
       {/* 検索結果がない場合のメッセージ */}
