@@ -124,6 +124,11 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
       }
 
       const data: PostDetails = await res.json();
+
+      // バックエンドURLを補完して画像パスを修正
+      data.user.icon = `${process.env.NEXT_PUBLIC_API_BASE_URL}${data.user.icon}`;
+      data.image_url = `${process.env.NEXT_PUBLIC_API_BASE_URL}${data.image_url}`;
+
       setSelectedPost(data);
     } catch (error) {
       console.error("Error fetching post details:", error);
@@ -203,7 +208,7 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
                   }}
                 >
                   <img
-                    src={selectedPost.image_url || "/src/no-image-icon.svg"}
+                    src={selectedPost.image_url}
                     alt="投稿画像"
                     style={{
                       width: "100%",
@@ -274,7 +279,7 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
                     }}
                   >
                     <img
-                      src={selectedPost.user.icon || "/src/face-icon.svg"}
+                      src={selectedPost.user.icon}
                       alt="ユーザーアイコン"
                       style={{
                         width: "30px",
