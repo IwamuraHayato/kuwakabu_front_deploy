@@ -40,6 +40,7 @@ const Page = () => {
           throw new Error(`Failed to fetch posts: ${response.status}`);
         }
         const data: Post[] = await response.json();
+        console.log("Fetched Posts Data:", data);
         setPosts(data);
       } catch (err: any) { // TypeScript の場合、エラーメッセージの型を明確にする
         setError(err.message || "Unknown error");
@@ -48,10 +49,12 @@ const Page = () => {
 
     fetchPosts();
   }, [user_id]);
-
+  
   // posts が空でない場合、最初の post からユーザー情報を取得
   const user = posts.length > 0 ? posts[0] : null;
-
+  console.log("User Data:", user);
+  console.log("Post Count:", user?.post_count);
+  
   // 経過年月を計算する関数
   const calculateElapsedMonths = (startDate: string): string => {
     const start = new Date(startDate);

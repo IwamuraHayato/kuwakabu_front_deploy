@@ -25,8 +25,13 @@ export default function CreatePage() {
 
     console.log("Request Data:", requestData); // デバッグ用
 
-    await createCustomer(requestData);
-    // router.push(`./create/confirm?customer_id=${formData.get("id")}`);
+    try {
+      const response = await createCustomer(requestData); // API を叩いてレスポンスを取得
+      router.push(`/login/registrationComplete?user_id=${response.user_id}&password=${response.password}`);
+    } catch (error) {
+      console.error("Error during registration:", error);
+      alert("登録に失敗しました。もう一度お試しください。");
+    }
   };
 
   return (
@@ -68,7 +73,7 @@ export default function CreatePage() {
                 type="text"
                 name="name"
                 id="name"
-                placeholder="クワカブ"
+                placeholder="クワカブ太郎"
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 required
               />
@@ -84,6 +89,7 @@ export default function CreatePage() {
                 type="date"
                 name="collection_start_at"
                 id="collection_start_at"
+                placeholder="2024-12-18"
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 required
               />

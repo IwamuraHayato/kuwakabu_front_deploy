@@ -60,8 +60,7 @@ export default function Page() {
           />
           <div className="p-5 grid">
             <div className="flex flex-col">
-              <p>Signed in as {session.user.name}</p>
-              <p>User ID: {session.user.id}</p>
+              <h1>ようこそ　{session.user.name}　さん</h1>
               {session.user.image && (
                 <img
                   src={session.user.image}
@@ -108,6 +107,7 @@ export default function Page() {
               <input
                 type="text"
                 id="id"
+                placeholder="半角数字"
                 value={id}
                 onChange={(e) => setId(e.target.value)}
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
@@ -121,6 +121,7 @@ export default function Page() {
               <input
                 type="password"
                 id="password"
+                placeholder="半角英数字と記号"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
