@@ -81,7 +81,7 @@ export default function PostPage() {
       const { lat, lng } = geocodingData.results[0].geometry.location;
   
       // OpenWeatherMap APIキー
-      const weatherApiKey = process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY;
+      const weatherApiKey = "c777ac6e80762c1fc32251893221ad75";
       if (!weatherApiKey) {
         console.error('OpenWeatherMap APIキーが設定されていません');
         setWeather('APIキーがありません');
