@@ -11,7 +11,7 @@ import Image from 'next/image';
 
 // 型定義を明確に記述
 interface PostImage {
-    post_id: number;
+    position: number;
     url: string;
 }
 
@@ -26,8 +26,8 @@ interface Post {
     dangerous_species_other: string;
     whether: string;
     temperature: number;
-    is_restricted_area: string;
     crowd_level: number;
+    is_restricted_area: boolean;
     free_memo: string;
     facilities: string;
     facility_other: string;
@@ -36,27 +36,25 @@ interface Post {
     longitude: number;
     methods: string;
     method_other: string;
-    species_data: string;
-    species_info_species_other: string;
+    species_data: string | null;
+    species_info_species_other: string | null;
     trees: string;
     tree_other: string;
+    images: PostImage[];
 }
 
 const PostPage = () => {
     const { id } = useParams(); // 動的ルートから `id` を取得
     const [post, setPost] = useState<Post | null>(null);
-    const [images, setImages] = useState<PostImage[]>([]);
     const [error, setError] = useState<string | null>(null); // エラーステートを追加
 
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+
+    // デフォルトの緯度経度を定義
+    const DEFAULT_LATITUDE = 35.6895; // 東京の緯度
+    const DEFAULT_LONGITUDE = 139.6917; // 東京の経度
 
     useEffect(() => {
-        // 環境変数からバックエンドURLを取得
-        // const backendUrl ="https://tech0-gen-8-step3-app-py-16.azurewebsites.net"
-        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
-        //const backendUrl = "http://127.0.0.1:5000"; // ハードコード
-
-        console.log('Backend URL:', backendUrl); // デバッグ用に追加
-
         if (!backendUrl) {
             console.error('バックエンドURLが設定されていません');
             setError('バックエンドURLが設定されていません');
@@ -79,23 +77,7 @@ const PostPage = () => {
             }
         };
         fetchPost();
-    }, [id]);
-
-
-    useEffect(() => {
-        // 画像データを public フォルダから取得
-        const fetchImages = () => {
-            const imagePaths: PostImage[] = [
-                { post_id: 1, url: "/gataro_images/IMG_9174.jpg" },
-                { post_id: 2, url: "/gataro_images/IMG_9198.jpg" },
-                { post_id: 3, url: "/gataro_images/IMG_9202.jpg" },
-            ];
-            setImages(imagePaths);
-        };
-
-        fetchImages();
-    }, []);
-
+    }, [id, backendUrl]);
 
     if (error) {
         return <div>{error}</div>;
@@ -105,61 +87,77 @@ const PostPage = () => {
         return <div>読み込み中...</div>;
     }
 
-
-
-
-
-
+    const fullUrl = (relativePath: string) =>
+        `${backendUrl}${relativePath.startsWith("/") ? relativePath : `/${relativePath}`}`;
 
     // カルーセル設定
     const sliderSettings = {
         dots: true,
-        infinite: true,
+        infinite: post.images.length > 1,
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
         arrows: true,
         swipe: true,
-        //    prevArrow: <CustomPrevArrow />,
-        //    nextArrow: <CustomNextArrow />,
     };
-
-    // デフォルトの緯度経度を設定
-    const DEFAULT_LATITUDE = 35.6895; // 東京の緯度（例）
-    const DEFAULT_LONGITUDE = 139.6917; // 東京の経度（例）
-
-    console.log("Post data:", post);
 
     return (
         <div
             className="pb-[106px] min-h-screen py-0 px-0 overflow-x-hidden"
-            style={{ maxWidth: "100%" }}
+            style={{ maxWidth: "100%", backgroundColor: "#FFFFFF", color: "#000000" }} // 背景色: 白、テキスト色: 黒
         >
             {/* ユーザー */}
-            <div className="flex items-center space-x-2 text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl font-roboto mt-2 ml-5">
+            <div className="flex items-center space-x-2 text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl font-roboto mb-2 mt-2 ml-5">
                 <Image
-                    src={post.user_icon && post.user_icon !== '-' ? post.user_icon : '/icons/user.svg'}
+                    src={fullUrl(post.user_icon || '/static/images/icon_images/face-icon.svg')}
                     alt={post.user_name || 'ユーザー'}
-                    width={30}  // 必要に応じてサイズを調整
-                    height={30} // 必要に応じてサイズを調整
-                    className="rounded-full" // 例: 円形にする場合
+                    width={30}
+                    height={30}
+                    className="rounded-full"
                 />
                 <p>{post.user_name}</p>
             </div>
             {/* カルーセル */}
             <div className="pb-[20px] bg-[#EEEEEE]">
-                <div style={{ margin: "10px 50px" }}>
-                    <Slider {...sliderSettings} className="flex items-center justify-center">
-                        {images.map((image) => (
-                            <div key={image.post_id} className="flex items-center justify-center h-120">
+                <div className="mx-auto" style={{ maxWidth: "800px" }}> {/* 画面幅に応じた最大幅 */}
+                    <Slider
+                        {...sliderSettings}
+                        infinite={post.images.length > 1} // 画像が1枚のときは無限スクロールを無効化
+                        className="flex items-center justify-center"
+                    >
+                        {post.images && post.images.length > 0 ? (
+                            post.images.map((image, index) => (
+                                <div key={index} className="flex items-center justify-center h-120">
+                                    <img
+                                        src={fullUrl(image.url)}
+                                        alt={`Image position ${image.position}`}
+                                        style={{
+                                            width: "100%",
+                                            maxWidth: "100%",
+                                            maxHeight: "500px", // 最大高さを設定
+                                            objectFit: "contain",
+                                            margin: "0 auto",
+                                        }}
+                                        className="object-contain max-h-full"
+                                    />
+                                </div>
+                            ))
+                        ) : (
+                            // 画像がない場合のデフォルト画像
+                            <div className="flex items-center justify-center h-120">
                                 <img
-                                    src={image.url}
-                                    alt={`Image ${image.post_id}`}
-                                    style={{ width: "100%", height: "auto" }}
+                                    src={fullUrl('/static/images/post_images/no-image-icon.svg')}
+                                    alt="No Image Available"
+                                    style={{
+                                        width: "100%",
+                                        maxWidth: "100%",
+                                        maxHeight: "500px", // 最大高さを設定
+                                        objectFit: "contain",
+                                    }}
                                     className="object-contain max-h-full"
                                 />
                             </div>
-                        ))}
+                        )}
                     </Slider>
                 </div>
             </div>
@@ -285,10 +283,7 @@ const PostPage = () => {
                     <p>周辺施設 その他</p><p className="-mx-16">{post.facility_other}</p>
                     <p>進入禁止エリア</p>
                     <p className="-mx-16">
-                        {{
-                            FALSE: "対象外",
-                            TRUE: "対象",
-                        }[post.is_restricted_area] || "不明"}
+                        {post.is_restricted_area ? "対象" : "対象外"}
                     </p>
                 </div>
                 <p className="mt-4">フリーコメント</p><p className="ml-4">{post.free_memo}</p>
