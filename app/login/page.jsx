@@ -69,6 +69,13 @@ export default function Page() {
                 />
               )}
             </div>
+            <div className="space-y-4">
+            <Button
+              title="ホームに戻る"
+              onClick={() => router.push("/")}
+              href="/"
+            />
+            </div>
           </div>
         </div>
       </div>

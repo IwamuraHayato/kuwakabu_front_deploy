@@ -17,6 +17,7 @@ interface Post {
   species_name: string;
   collection_start_at: string;
   post_count: string;
+  image_urls: string[];
 }
 
 const Page = () => {
