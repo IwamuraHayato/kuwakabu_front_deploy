@@ -1,18 +1,11 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { signOut, useSession } from "next-auth/react";
 
 export default function Header() {
   const router = useRouter();
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // ログイン状態を管理
-
-  // ログイン状態の確認（ここは実際の認証方法に合わせて変更する）
-  useEffect(() => {
-    // 仮の認証チェックロジック
-    const userToken = localStorage.getItem("userToken"); // ローカルストレージからトークンを取得（例）
-    setIsLoggedIn(!!userToken); // トークンが存在すればログイン済みと判定
-  }, []);
+  const { data: session, status } = useSession(); // 認証状態を取得
 
   const handleLogoClick = () => {
     if (window.location.pathname === "/") {
@@ -46,23 +39,36 @@ export default function Header() {
         </div>
       </div>
 
-      {/* 右側：未ログイン状態で表示 */}
-      {!isLoggedIn && (
-        <div className="flex items-center space-x-4">
-          <button
-            className="px-4 py-2 text-sm font-bold text-gray-800 bg-transparent border rounded hover:bg-gray-100"
-            onClick={() => router.push("/login")}
-          >
-            ログイン
-          </button>
-          <button
-            className="px-4 py-2 text-sm font-bold text-white rounded bg-[#3D6E55] hover:bg-[#2F5544]"
-            onClick={() => router.push("/login/register")}
-          >
-            会員登録
-          </button>
-        </div>
-      )}
+      {/* 右側：認証状態に応じたボタンの切り替え */}
+      <div className="flex items-center space-x-4">
+        {status === "authenticated" ? (
+          <>
+            {/* ログイン済みの表示 */}
+            <button
+              className="px-4 py-2 text-sm font-bold text-white rounded bg-[#3D6E55] hover:bg-[#2F5544]"
+              onClick={() => signOut({ callbackUrl: "/" })} // ログアウト
+            >
+              ログアウト
+            </button>
+          </>
+        ) : (
+          <>
+            {/* 未ログインの表示 */}
+            <button
+              className="px-4 py-2 text-sm font-bold text-gray-800 bg-transparent border rounded hover:bg-gray-100"
+              onClick={() => router.push("/login")}
+            >
+              ログイン
+            </button>
+            <button
+              className="px-4 py-2 text-sm font-bold text-white rounded bg-[#3D6E55] hover:bg-[#2F5544]"
+              onClick={() => router.push("/login/register")}
+            >
+              会員登録
+            </button>
+          </>
+        )}
+      </div>
     </header>
   );
 }

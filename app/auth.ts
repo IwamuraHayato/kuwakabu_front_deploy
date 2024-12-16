@@ -3,12 +3,48 @@ import NextAuth from "next-auth";
 import GitHub from "next-auth/providers/github";
 import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
+import Credentials from "next-auth/providers/credentials";
+import getUserFromDb from './login/getUserFromDb';
+
+// 型定義を明示的に追加
+interface CredentialsInput {
+  id: string;
+  password: string;
+}
 
 export const { handlers, signIn, signOut } = NextAuth({
   providers: [
     GitHub({
       clientId: process.env.AUTH_GITHUB_ID, 
       clientSecret: process.env.AUTH_GITHUB_SECRET, 
+    }),
+    Credentials({
+      credentials: {
+        id: { label: "ID", type: "text" }, 
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        // 入力されたユーザー名とパスワードのチェック
+        const { id, password } = credentials as CredentialsInput; // 型アサーションを追加
+        if (!id || !password) {
+          throw new Error("id and password are required");
+        }
+    
+        try {    
+          // ユーザー名でユーザーを検索
+          const user = await getUserFromDb(id, password);
+    
+          if (!user) {
+            throw new Error("Invalid id or password");
+          }
+    
+          // 認証が成功した場合、ユーザーオブジェクトを返す
+          return { id: user.id, name: user.name};
+        } catch (error) {
+          console.error("Error in authorize:", error);
+          throw new Error("Authentication failed");
+        }
+      },
     }),
   ],
   callbacks: {
