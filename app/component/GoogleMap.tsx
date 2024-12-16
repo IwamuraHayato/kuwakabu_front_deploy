@@ -62,7 +62,8 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      let url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/map/posts`;
+      const url = "https://tech0-gen-8-step3-app-py-16.azurewebsites.net/map/posts";
+      // let url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/map/posts`;
       const params = new URLSearchParams();
 
       if (searchTerm.trim() !== "") {
@@ -117,7 +118,8 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
 
   const fetchPostDetails = async (postId: number) => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/map/post/${postId}`);
+      const res = await fetch(`https://tech0-gen-8-step3-app-py-16.azurewebsites.net/map/post/${postId}`);
+      // const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/map/post/${postId}`);
       if (!res.ok) {
         console.error("Failed to fetch post details");
         return;
@@ -126,8 +128,11 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
       const data: PostDetails = await res.json();
 
       // バックエンドURLを補完して画像パスを修正
-      data.user.icon = `${process.env.NEXT_PUBLIC_API_BASE_URL}${data.user.icon}`;
-      data.image_url = `${process.env.NEXT_PUBLIC_API_BASE_URL}${data.image_url}`;
+      // data.user.icon = `${process.env.NEXT_PUBLIC_API_BASE_URL}${data.user.icon}`;
+      // data.image_url = `${process.env.NEXT_PUBLIC_API_BASE_URL}${data.image_url}`;
+      data.user.icon = `https://tech0-gen-8-step3-app-py-16.azurewebsites.net${data.user.icon}`;
+      data.image_url = `https://tech0-gen-8-step3-app-py-16.azurewebsites.net${data.image_url}`;
+
 
       setSelectedPost(data);
     } catch (error) {

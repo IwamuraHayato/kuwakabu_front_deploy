@@ -3,7 +3,6 @@
 
 import { useState } from "react";
 import { signIn, useSession } from "next-auth/react";
-import SignOut from "../component/header_component/Signout-button";
 import Button from "../component/Button";
 import { useRouter } from "next/navigation"; // 正しい useRouter をインポート
 

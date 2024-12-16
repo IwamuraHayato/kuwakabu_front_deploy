@@ -1,6 +1,7 @@
 export default async function getUserFromDb(id: string, password: string) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/authenticate`, {
+    // const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/authenticate`, {
+    const response = await fetch(`https://tech0-gen-8-step3-app-py-16.azurewebsites.net/authenticate`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id, password }),

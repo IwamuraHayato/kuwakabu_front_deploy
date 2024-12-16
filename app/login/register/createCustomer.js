@@ -15,7 +15,8 @@ const createCustomer = async (data) => {
 
         console.log("Request Body:", body_msg); // デバッグ用ログ
 
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/user`, {
+        const res = await fetch(`https://tech0-gen-8-step3-app-py-16.azurewebsites.net/user`, {
+        // const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/user`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: body_msg,
