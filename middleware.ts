@@ -18,6 +18,6 @@ export async function middleware(req) {
 }
 
 export const config = {
-  // matcher: ["/mypage/:path*", "/mypage", "/submit", ],
-  matcher: [], 
+  matcher: ["/mypage/:path*", "/mypage", "/submit", ],
+  // matcher: [], 
 };
