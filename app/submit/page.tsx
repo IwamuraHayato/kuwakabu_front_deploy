@@ -178,13 +178,13 @@ export default function PostPage() {
       <h1 className="text-2xl font-bold mb-8"></h1>
       <form onSubmit={handleSubmit} className="w-full max-w-md space-y-4">
         <div className="mt-4">
-          <label className="block mb-2">写真を添付*（最大3枚）</label>
+          <label className="block mb-2 text-black">写真を添付*（最大3枚）</label>
           <input
             type="file"
             accept="image/*"
             multiple
             onChange={handlePhotoChange}
-            className="block w-full mb-4 p-2 border rounded"
+            className="block w-full mb-4 p-2 border rounded bg-white text-black border-gray-300"
           />
           <div className="grid grid-cols-3 gap-4">
             {photos.map((photo, index) => (
@@ -213,7 +213,7 @@ export default function PostPage() {
 
         {rows.map((row, index) => (
           <div key={index} className="mb-4">
-            <div className="flex space-x-2 items-center mb-2">
+            <div className="flex space-x-2 items-center mb-2 text-black">
               <div className="w-2/3 text-center font-semibold">種類*</div>
               <div className="w-1/4 text-center font-semibold">性別*</div>
               <div className="w-1/4 text-center font-semibold">数*</div>
@@ -223,7 +223,7 @@ export default function PostPage() {
               <select
                 value={row.type}
                 onChange={(e) => handleChange(index, "type", e.target.value)}
-                className="p-2 border rounded w-2/3"
+                className="p-2 border rounded w-2/3 bg-white text-black border-gray-300"
                 required
               >
                 <option value="" disabled>
@@ -241,7 +241,7 @@ export default function PostPage() {
               <select
                 value={row.gender}
                 onChange={(e) => handleGenderChange(index, e.target.value)}
-                className="p-2 border rounded w-4/7"
+                className="p-2 border rounded w-4/7 bg-white text-black border-gray-300"
                 required
               >
                 <option value="オス">オス</option>
@@ -252,15 +252,15 @@ export default function PostPage() {
                 type="number"
                 value={row.count}
                 onChange={(e) => handleChange(index, "count", e.target.value)}
-                className="p-2 border rounded w-1/3"
+                className="p-2 border rounded w-1/3 bg-white text-black border-gray-300"
                 required
               />
-              <div className="relative">
+              <div className="relative w-full">
                 <input
                   type="text"
                   value={row.maxSize}
                   onChange={(e) => handleChange(index, "maxSize", e.target.value)}
-                  className="p-2 border rounded w-full pr-10"
+                  className="p-2 border rounded w-full pr-10 bg-white text-black border-gray-300"
                   required
                 />
                 <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
@@ -289,118 +289,118 @@ export default function PostPage() {
         </div>
 
         <div>
-          <label className="block mb-2">採集日時*</label>
+          <label className="block mb-2 text-black">採集日時*</label>
           <input
             type="datetime-local"
             value={collectionDate}
             onChange={(e) => setCollectionDate(e.target.value)}
-            className="p-2 border rounded w-full"
+            className="p-2 border rounded w-full bg-white text-black border-gray-300"
             required
           />
         </div>
 
         <div>
-          <label className="block mb-2">採集場所*</label>
+          <label className="block mb-2 text-black">採集場所*</label>
           <input
             type="text"
             value={collectionPlace}
             onChange={handlePlaceChange}
-            className="p-2 border rounded w-full"
+            className="p-2 border rounded w-full bg-white text-black border-gray-300"
             placeholder="例: 東京都新宿区"
             required
           />
         </div>
 
         <div>
-          <label className="block mb-2">天気</label>
+          <label className="block mb-2 text-black">天気</label>
           <input
             type="text"
             value={weather}
             readOnly
-            className="p-2 border rounded w-full bg-gray-100"
+            className="p-2 border rounded w-full bg-gray-100 text-black border-gray-300"
           />
         </div>
 
         <div>
-          <label className="block mb-2">気温 (°C)</label>
+          <label className="block mb-2 text-black">気温 (°C)</label>
           <input
             type="text"
             value={temperature}
             readOnly
-            className="p-2 border rounded w-full bg-gray-100"
+            className="p-2 border rounded w-full bg-gray-100 text-black border-gray-300"
           />
         </div>
 
         <div>
-          <label className="block mb-2">採集方法</label>
+          <label className="block mb-2 text-black">採集方法</label>
           <input
             type="text"
             value={collectionMethod}
             onChange={(e) => setCollectionMethod(e.target.value)}
-            className="p-2 border rounded w-full"
+            className="p-2 border rounded w-full bg-white text-black border-gray-300"
           />
         </div>
 
         <div>
-          <label className="block mb-2">捕まえた樹木</label>
+          <label className="block mb-2 text-black">捕まえた樹木</label>
           <input
             type="text"
             value={capturedTree}
             onChange={(e) => setCapturedTree(e.target.value)}
-            className="p-2 border rounded w-full"
+            className="p-2 border rounded w-full bg-white text-black border-gray-300"
           />
         </div>
 
         <div>
-          <label className="block mb-2">危険動物</label>
+          <label className="block mb-2 text-black">危険動物</label>
           <input
             type="text"
             value={dangerousAnimals}
             onChange={(e) => setDangerousAnimals(e.target.value)}
-            className="p-2 border rounded w-full"
+            className="p-2 border rounded w-full bg-white text-black border-gray-300"
           />
         </div>
 
         <div>
-          <label className="block mb-2">周辺施設</label>
+          <label className="block mb-2 text-black">周辺施設</label>
           <input
             type="text"
             value={surroundingFacilities}
             onChange={(e) => setSurroundingFacilities(e.target.value)}
-            className="p-2 border rounded w-full"
+            className="p-2 border rounded w-full bg-white text-black border-gray-300"
           />
         </div>
 
         <div>
-          <label className="block mb-2">メモ</label>
+          <label className="block mb-2 text-black">メモ</label>
           <textarea
             value={memo}
             onChange={(e) => setMemo(e.target.value)}
-            className="p-2 border rounded w-full"
+            className="p-2 border rounded w-full bg-white text-black border-gray-300"
           />
         </div>
 
         <div>
-          <label className="block mb-2">人の混み具合</label>
+          <label className="block mb-2 text-black">人の混み具合</label>
           <div className="flex space-x-4">
             <button
               type="button"
               onClick={() => setCrowdLevel("少ない")}
-              className={`px-4 py-2 rounded ${crowdLevel === "少ない" ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+              className={`px-4 py-2 rounded ${crowdLevel === "少ない" ? "bg-blue-500 text-white" : "bg-gray-200 text-black"}`}
             >
               少ない
             </button>
             <button
               type="button"
               onClick={() => setCrowdLevel("普通")}
-              className={`px-4 py-2 rounded ${crowdLevel === "普通" ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+              className={`px-4 py-2 rounded ${crowdLevel === "普通" ? "bg-blue-500 text-white" : "bg-gray-200 text-black"}`}
             >
               普通
             </button>
             <button
               type="button"
               onClick={() => setCrowdLevel("多い")}
-              className={`px-4 py-2 rounded ${crowdLevel === "多い" ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+              className={`px-4 py-2 rounded ${crowdLevel === "多い" ? "bg-blue-500 text-white" : "bg-gray-200 text-black"}`}
             >
               多い
             </button>
@@ -408,19 +408,19 @@ export default function PostPage() {
         </div>
 
         <div>
-          <label className="block mb-2">昆虫採集禁止エリア</label>
+          <label className="block mb-2 text-black">昆虫採集禁止エリア</label>
           <div className="flex space-x-4">
             <button
               type="button"
               onClick={() => setForbiddenArea("該当する")}
-              className={`px-4 py-2 rounded ${forbiddenArea === "該当する" ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+              className={`px-4 py-2 rounded ${forbiddenArea === "該当する" ? "bg-blue-500 text-white" : "bg-gray-200 text-black"}`}
             >
               該当する
             </button>
             <button
               type="button"
               onClick={() => setForbiddenArea("該当しない")}
-              className={`px-4 py-2 rounded ${forbiddenArea === "該当しない" ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+              className={`px-4 py-2 rounded ${forbiddenArea === "該当しない" ? "bg-blue-500 text-white" : "bg-gray-200 text-black"}`}
             >
               該当しない
             </button>
