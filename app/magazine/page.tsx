@@ -40,6 +40,11 @@ export default function PageMenu() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useEffect(() => {
+    // ページ遷移時にトップにスクロール
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="pb-[106px] min-h-screen bg-[#ECEADA] py-6 px-4 font-roboto">
       {/* ヘッダーセクション */}
