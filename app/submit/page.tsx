@@ -2,8 +2,11 @@
 "use client";
 
 import { useState } from 'react';
+import { useSession } from "next-auth/react";
 
 export default function PostPage() {
+  const { data: session } = useSession();
+  const userId = session?.user?.id; // ユーザーIDを取得
   const [rows, setRows] = useState([ 
     { type: '', gender: '', count: '', maxSize: '' },
   ]);
@@ -57,7 +60,7 @@ export default function PostPage() {
     try {
       // Google Maps Geocoding APIキー
       // const geocodingApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-      const geocodingApiKey = "AIzaSyBMfzoWS9VrllIqFtNGERqBsVknX-9O9fM";
+      const geocodingApiKey = "AIzaSyBVlySFxUukdMeWL_vv6UcDV2ajXKht9so";
       if (!geocodingApiKey) {
         console.error('Google Maps APIキーが設定されていません');
         setWeather('APIキーがありません');
@@ -121,6 +124,7 @@ export default function PostPage() {
     e.preventDefault();
 
     const formData = new FormData();
+    formData.append('user_id', userId);
     formData.append('rows', JSON.stringify(rows));
     formData.append('collectionDate', collectionDate);
     formData.append('collectionPlace', collectionPlace);
@@ -137,6 +141,7 @@ export default function PostPage() {
       formData.append(`photo${index + 1}`, photo);
     });
 
+    console.log('FormData user_id:', userId);
     console.log('FormData rows:', JSON.stringify(rows));
     console.log('FormData collectionDate:', collectionDate);
     console.log('FormData collectionPlace:', collectionPlace);
@@ -272,7 +277,6 @@ export default function PostPage() {
                 onClick={() => removeRow(index)}
                 className="px-2 py-1 bg-red-500 text-white rounded"
               >
-                －
               </button>
             </div>
           </div>
@@ -284,7 +288,6 @@ export default function PostPage() {
             onClick={addRow}
             className="w-10 h-10 bg-gray-200 text-black text-xl font-bold rounded-full shadow-md hover:bg-gray-300 transition-transform transform hover:scale-110 flex items-center justify-center"
           >
-            ＋
           </button>
         </div>
 
