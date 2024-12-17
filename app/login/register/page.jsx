@@ -1,4 +1,3 @@
-// 登録フォームのページ
 "use client";
 import { useRef } from "react";
 import { useRouter } from "next/navigation";
@@ -23,10 +22,10 @@ export default function CreatePage() {
       collection_start_at: formData.get("collection_start_at"),
     };
 
-    console.log("Request Data:", requestData); // デバッグ用
+    console.log("Request Data:", requestData);
 
     try {
-      const response = await createCustomer(requestData); // API を叩いてレスポンスを取得
+      const response = await createCustomer(requestData);
       router.push(`/login/registrationComplete?user_id=${response.user_id}&password=${response.password}`);
     } catch (error) {
       console.error("Error during registration:", error);
@@ -35,9 +34,9 @@ export default function CreatePage() {
   };
 
   return (
-    <div>
-      <header className="flex items-center justify-between p-3 h-14 bg-white z-10">
-        <button onClick={() => router.push("/")} className="text-gray-500">
+    <div className="bg-white text-black min-h-screen">
+      <header className="flex items-center justify-between p-3 h-14 bg-white text-black z-10">
+        <button onClick={() => router.push("/")} className="text-black">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"
@@ -54,7 +53,7 @@ export default function CreatePage() {
           </svg>
         </button>
       </header>
-      <div className="p-5 grid items-center justify-items-center bg-[#ECEAD8] text-gray-900 min-h-screen">
+      <div className="p-5 grid items-center justify-items-center bg-[#ECEAD8] !text-black min-h-screen">
         <img
           src="/src/logo.png"
           alt="クワカブトリタイ"
@@ -65,7 +64,7 @@ export default function CreatePage() {
             <div className="mb-4">
               <label
                 htmlFor="name"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium !text-black"
               >
                 ニックネーム:
               </label>
@@ -74,14 +73,14 @@ export default function CreatePage() {
                 name="name"
                 id="name"
                 placeholder="クワカブ太郎"
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="mt-1 block w-full px-3 py-2 border !border-gray-300 rounded-md shadow-sm bg-white !text-black focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 required
               />
             </div>
             <div className="mb-4">
               <label
                 htmlFor="collection_start_at"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium !text-black"
               >
                 いつから採集を開始しましたか？:
               </label>
@@ -90,7 +89,7 @@ export default function CreatePage() {
                 name="collection_start_at"
                 id="collection_start_at"
                 placeholder="2024-12-18"
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="mt-1 block w-full px-3 py-2 border !border-gray-300 rounded-md shadow-sm bg-white !text-black focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 required
               />
             </div>
