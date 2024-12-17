@@ -84,7 +84,7 @@ export default function Home() {
           {/* 入力欄 */}
           <input
             type="text"
-            placeholder="地名・種類など"
+            placeholder="カブトムシ 群馬県"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="flex-1 p-3 bg-white text-black focus:outline-none rounded-l"
