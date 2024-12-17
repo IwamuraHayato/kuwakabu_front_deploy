@@ -1,12 +1,14 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   APIProvider,
   Map,
   AdvancedMarker,
   InfoWindow,
   Pin,
+  MapCameraChangedEvent,
+  MapCameraProps
 } from "@vis.gl/react-google-maps";
 import { useRouter } from "next/navigation";
 
@@ -47,17 +49,19 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
   defaultZoom = 16,
 }) => {
   const [posts, setPosts] = useState<PostData[]>([]);
-  const [mapCenter, setMapCenter] = useState<{ lat: number; lng: number } | null>(
-    null
-  );
-  const [mapZoom, setMapZoom] = useState(defaultZoom); // ズームレベルの状態管理
+  const [cameraProps, setCameraProps] = useState<MapCameraProps>({
+    center: { lat: centerLat || 35.681236, lng: centerLng || 139.767125 }, // 東京駅
+    zoom: defaultZoom,
+  });
   const [selectedPost, setSelectedPost] = useState<PostDetails | null>(null);
   const [loading, setLoading] = useState(true);
-  const [noResults, setNoResults] = useState(false); // 検索結果がないかどうか
+  const [noResults, setNoResults] = useState(false);
   const router = useRouter();
 
-  const DEFAULT_LAT = 35.681236;
-  const DEFAULT_LNG = 139.767125;
+  const handleCameraChange = useCallback((ev: MapCameraChangedEvent) => {
+    setCameraProps(ev.detail); // ユーザーの操作でカメラの状態を更新
+  }, []);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -67,45 +71,25 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
 
       const params = new URLSearchParams();
 
-      if (searchTerm.trim() !== "") {
-        params.set("search", searchTerm);
-      }
-
-      if (Array.from(params).length > 0) {
-        url += `?${params.toString()}`;
-      }
+      if (searchTerm.trim()) params.set("search", searchTerm);
+      if (params.toString()) url += `?${params.toString()}`;
 
       try {
         const res = await fetch(url);
-        if (!res.ok) {
-          console.error("Failed to fetch posts");
-          return;
-        }
+        if (!res.ok) throw new Error("Failed to fetch posts");
 
         const { posts = [], max_post } = await res.json();
         setPosts(posts);
 
         if (posts.length === 0) {
           setNoResults(true);
-          setMapZoom(defaultZoom);
-          if (!centerLat || !centerLng) {
-            setMapCenter({ lat: DEFAULT_LAT, lng: DEFAULT_LNG });
-          }
         } else {
           setNoResults(false);
-          if (centerLat !== null && centerLng !== null) {
-            setMapCenter({ lat: centerLat, lng: centerLng });
-            setMapZoom(12);
-          } else if (max_post) {
-            const maxPost = posts.find((post) => post.id === max_post);
-            if (maxPost) {
-              setMapCenter({ lat: maxPost.latitude, lng: maxPost.longitude });
-              setMapZoom(12);
-            }
-          } else {
-            setMapCenter({ lat: posts[0].latitude, lng: posts[0].longitude });
-            setMapZoom(12);
-          }
+          const firstPost = posts[0];
+          setCameraProps((prev) => ({
+            ...prev,
+            center: { lat: firstPost.latitude, lng: firstPost.longitude },
+          }));
         }
       } catch (error) {
         console.error("Error fetching posts:", error);
@@ -115,7 +99,65 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
     };
 
     fetchData();
-  }, [searchTerm, centerLat, centerLng]);
+  }, [searchTerm]);
+
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     setLoading(true);
+  //     let url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/map/posts`;
+  //     const params = new URLSearchParams();
+
+  //     if (searchTerm.trim() !== "") {
+  //       params.set("search", searchTerm);
+  //     }
+
+  //     if (Array.from(params).length > 0) {
+  //       url += `?${params.toString()}`;
+  //     }
+
+  //     try {
+  //       const res = await fetch(url);
+  //       if (!res.ok) {
+  //         console.error("Failed to fetch posts");
+  //         return;
+  //       }
+
+  //       const { posts = [], max_post } = await res.json();
+  //       setPosts(posts);
+
+  //       if (posts.length === 0) {
+  //         setNoResults(true);
+  //         setMapZoom(defaultZoom);
+  //         if (!centerLat || !centerLng) {
+  //           setMapCenter({ lat: DEFAULT_LAT, lng: DEFAULT_LNG });
+  //         }
+  //       } else {
+  //         setNoResults(false);
+  //         if (centerLat !== null && centerLng !== null) {
+  //           setMapCenter({ lat: centerLat, lng: centerLng });
+  //           setMapZoom(12);
+  //         } else if (max_post) {
+  //           const maxPost = posts.find((post) => post.id === max_post);
+  //           if (maxPost) {
+  //             setMapCenter({ lat: maxPost.latitude, lng: maxPost.longitude });
+  //             setMapZoom(12);
+  //           }
+  //         } else {
+  //           setMapCenter({ lat: posts[0].latitude, lng: posts[0].longitude });
+  //           setMapZoom(12);
+  //         }
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching posts:", error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [searchTerm, centerLat, centerLng]);
+
 
   const fetchPostDetails = async (postId: number) => {
     try {
@@ -144,35 +186,19 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
   return (
     <div style={{ height: "90%", width: "100%", position: "relative" }}>
       {noResults && (
-        <div
-          style={{
-            position: "absolute",
-            top: "0",
-            left: "0",
-            width: "100%",
-            height: "100%",
-            zIndex: 10,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "rgba(255, 255, 255, 0.8)",
-          }}
-        >
-          <p style={{ fontSize: "16px", color: "#555", fontWeight: "bold" }}>
-            検索結果がありませんでした
-          </p>
+        <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-white/80 z-10">
+          <p className="text-lg font-bold text-gray-600">検索結果がありませんでした</p>
         </div>
       )}
 
       <APIProvider
         apiKey="AIzaSyBMfzoWS9VrllIqFtNGERqBsVknX-9O9fM"
         // apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""} // 環境変数から API キーを取得
-        onLoad={() => console.log("Maps API has loaded.")}
       >
         <Map
+          {...cameraProps}
           mapId={"8527f8af06fe26a9"}
-          zoom={mapZoom}
-          center={mapCenter || { lat: DEFAULT_LAT, lng: DEFAULT_LNG }}
+          onCameraChanged={handleCameraChange}
         >
           {posts.map((post) => (
             <AdvancedMarker
@@ -180,9 +206,10 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
               position={{ lat: post.latitude, lng: post.longitude }}
               onClick={() => fetchPostDetails(post.id)}
             >
-              <Pin background={"#FBBC04"} glyphColor={"#000"} borderColor={"#000"} />
+              <Pin background={"#F1B300"} glyphColor={"#000"} borderColor={"#000"} />
             </AdvancedMarker>
           ))}
+
 
           {selectedPost && (
             <InfoWindow
