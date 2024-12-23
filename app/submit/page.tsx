@@ -59,8 +59,8 @@ export default function PostPage() {
   const fetchWeatherData = async (place: string) => {
     try {
       // Google Maps Geocoding APIキー
-      // const geocodingApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-      const geocodingApiKey = "AIzaSyBVlySFxUukdMeWL_vv6UcDV2ajXKht9so";
+      const geocodingApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+      // const geocodingApiKey = "AIzaSyBVlySFxUukdMeWL_vv6UcDV2ajXKht9so";
       if (!geocodingApiKey) {
         console.error('Google Maps APIキーが設定されていません');
         setWeather('APIキーがありません');
@@ -149,8 +149,8 @@ export default function PostPage() {
     console.log('FormData temperature:', temperature);
 
     try {
-      const response = await fetch('https://tech0-gen-8-step3-app-py-16.azurewebsites.net/api/posts', {
-      // const response = await fetch('http://127.0.0.1:5000/api/posts', {
+      // const response = await fetch('https://tech0-gen-8-step3-app-py-16.azurewebsites.net/api/posts', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/posts`, {
         method: 'POST',
         body: formData,
       });

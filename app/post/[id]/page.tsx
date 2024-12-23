@@ -48,8 +48,8 @@ const PostPage = () => {
     const [post, setPost] = useState<Post | null>(null);
     const [error, setError] = useState<string | null>(null); // エラーステートを追加
 
-    // const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
-    const backendUrl = "https://tech0-gen-8-step3-app-py-16.azurewebsites.net";
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+    // const backendUrl = "https://tech0-gen-8-step3-app-py-16.azurewebsites.net";
 
 
     // デフォルトの緯度経度を定義

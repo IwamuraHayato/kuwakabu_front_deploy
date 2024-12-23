@@ -35,10 +35,9 @@ const Page = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const backendUrl = "https://tech0-gen-8-step3-app-py-16.azurewebsites.net"
-        // const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL; // 例: http://127.0.0.1:5000
+        // const backendUrl = "https://tech0-gen-8-step3-app-py-16.azurewebsites.net"
+        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL; // 例: http://127.0.0.1:5000
         const response = await fetch(`${backendUrl}/mypage?user_id=${user_id}`);
-        // const response = await fetch(`https://tech0-gen-8-step3-app-py-16.azurewebsites.net/mypage?user_id=${user_id}`);
         if (!response.ok) {
           throw new Error(`ログインして下さい。: ${response.status}`);
         }
@@ -87,8 +86,8 @@ const Page = () => {
           <div className="flex flex-col items-start space-y-2">
             {/* 左上: user_icon */}
             <Image
-              src={user.user_icon !== '-' ? `https://tech0-gen-8-step3-app-py-16.azurewebsites.net/images/${user.user_icon}` : '/icons/user.svg'}
-              // src={user.user_icon !== '-' ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/images/${user.user_icon}` : '/icons/user.svg'}
+              // src={user.user_icon !== '-' ? `https://tech0-gen-8-step3-app-py-16.azurewebsites.net/images/${user.user_icon}` : '/icons/user.svg'}
+              src={user.user_icon !== '-' ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/images/${user.user_icon}` : '/icons/user.svg'}
               alt={user.user_name || 'ユーザー'}
               width={117}  // 大きめに設定
               height={117}
@@ -130,8 +129,8 @@ const Page = () => {
                 className="bg-white rounded-[4px] shadow-lg w-[185px] h-[279px] cursor-pointer hover:shadow-xl transition-shadow"
               >
                 <Image
-                  src={`https://tech0-gen-8-step3-app-py-16.azurewebsites.net/images/${post.image_urls[0]}`}
-                  // src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/images/${post.image_urls[0]}`}
+                  // src={`https://tech0-gen-8-step3-app-py-16.azurewebsites.net/images/${post.image_urls[0]}`}
+                  src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/images/${post.image_urls[0]}`}
                   alt={post.species_name}
                   width={185}  // Image コンポーネントの width を設定
                   height={185} // Image コンポーネントの height を設定
