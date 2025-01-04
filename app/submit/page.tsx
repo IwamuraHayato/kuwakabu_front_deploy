@@ -8,7 +8,7 @@ export default function PostPage() {
   const { data: session } = useSession();
   const userId = session?.user?.id; // ユーザーIDを取得
   const [rows, setRows] = useState([ 
-    { type: '', gender: '', count: '', maxSize: '' },
+    { type: '', gender: 'オス', count: '1', maxSize: '' },
   ]);
   const [photos, setPhotos] = useState<File[]>([]);
   const [collectionDate, setCollectionDate] = useState('');
@@ -48,6 +48,7 @@ export default function PostPage() {
   const handleGenderChange = (index: number, value: string) => {
     const updatedRows = [...rows];
     updatedRows[index].gender = value;
+    console.log(`Updated gender for row ${index}: ${value}`); // 性別が更新されているか確認
     setRows(updatedRows);
   };
 
