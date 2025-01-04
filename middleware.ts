@@ -5,7 +5,8 @@ import { NextResponse } from "next/server";
 export async function middleware(req) {
   console.log("Middleware triggered for:", req.url);
 
-  const token = await getToken({ req, secret: process.env.AUTH_SECRET });
+  const token = await getToken({ req, secret: "mCXX3Xoeqckp75fQwv8XTqM9WajHYltjzjkZEp37t38=" });
+  // const token = await getToken({ req, secret: process.env.AUTH_SECRET });
   if (!token) {
     console.log("No token found. Redirecting to signin...");
     const url = new URL("/login", req.url); // サインインページにリダイレクト
@@ -17,6 +18,6 @@ export async function middleware(req) {
 }
 
 export const config = {
-  matcher: ["/mypage/:path*", "/mypage", "/submit", ],
-  // matcher: [], 
+  // matcher: ["/mypage/:path*", "/mypage", "/submit", ],
+  matcher: [], 
 };

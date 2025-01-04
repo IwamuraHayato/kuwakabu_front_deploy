@@ -63,14 +63,14 @@ export const { handlers, signIn, signOut } = NextAuth({
       return session;
     },
   },
-  secret: process.env.AUTH_SECRET, // Auth.js の秘密鍵を指定
+  secret: "mCXX3Xoeqckp75fQwv8XTqM9WajHYltjzjkZEp37t38=", // Auth.js の秘密鍵を指定
   trustHost: true, 
 });
 
 // ミドルウェアとして認証チェックを行う関数を追加
 export async function auth(req) {
   console.log("Middleware triggered for:", req.url);
-  const token = await getToken({ req, secret: process.env.AUTH_SECRET });
+  const token = await getToken({ req, secret: "mCXX3Xoeqckp75fQwv8XTqM9WajHYltjzjkZEp37t38=" });
 
   if (!token) {
     // トークンがない場合はログインページにリダイレクト
