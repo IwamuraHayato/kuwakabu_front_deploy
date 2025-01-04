@@ -8,7 +8,7 @@ export default function PostPage() {
   const { data: session } = useSession();
   const userId = session?.user?.id; // ユーザーIDを取得
   const [rows, setRows] = useState([ 
-    { type: '', gender: '', count: '', maxSize: '' },
+    { type: '', gender: 'オス', count: '1', maxSize: '' },
   ]);
   const [photos, setPhotos] = useState<File[]>([]);
   const [collectionDate, setCollectionDate] = useState('');
@@ -48,6 +48,7 @@ export default function PostPage() {
   const handleGenderChange = (index: number, value: string) => {
     const updatedRows = [...rows];
     updatedRows[index].gender = value;
+    console.log(`Updated gender for row ${index}: ${value}`); // 性別が更新されているか確認
     setRows(updatedRows);
   };
 
@@ -74,11 +75,17 @@ export default function PostPage() {
       );
       const geocodingData = await geocodingResponse.json();
   
+      // if (geocodingData.status !== 'OK' || !geocodingData.results.length) {
+      //   console.error('住所から緯度・経度を取得できませんでした:', geocodingData.error_message);
+      //   setWeather('住所が無効です');
+      //   setTemperature('住所が無効です');
+      //   return;
+      // }
       if (geocodingData.status !== 'OK' || !geocodingData.results.length) {
         console.error('住所から緯度・経度を取得できませんでした:', geocodingData.error_message);
-        setWeather('住所が無効です');
-        setTemperature('住所が無効です');
-        return;
+        setWeather('');
+        setTemperature('');
+        return; // 空の値を設定して終了
       }
   
       const { lat, lng } = geocodingData.results[0].geometry.location;
