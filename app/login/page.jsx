@@ -103,7 +103,7 @@ export default function Page() {
           alt="クワカブトリタイ"
           className="mx-auto mb-6 h-[133px]"
         />
-        <div className="flex flex-col justify-center w-96">
+        <div className="flex flex-col justify-center w-full max-w-md px-4">
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label htmlFor="id" className="block text-sm font-medium text-black">
@@ -115,7 +115,7 @@ export default function Page() {
                 placeholder="半角数字"
                 value={id}
                 onChange={(e) => setId(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white text-black"
+                className="mt-1 block w-full max-w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white text-black"
                 required
               />
             </div>
@@ -129,7 +129,7 @@ export default function Page() {
                 placeholder="半角英数字と記号"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white text-black"
+                className="mt-1 block w-full max-w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white text-black"
                 required
               />
             </div>
