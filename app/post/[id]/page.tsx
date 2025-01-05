@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation"; // URL のパラメータ取得
+import { useRouter } from 'next/navigation';
 import Script from "next/script";
 import GoogleMap from "./GoogleMap";
 import Slider from "react-slick";
@@ -46,6 +47,7 @@ interface Post {
 const PostPage = () => {
     const { id } = useParams(); // 動的ルートから `id` を取得
     const [post, setPost] = useState<Post | null>(null);
+    const router = useRouter();
     const [error, setError] = useState<string | null>(null); // エラーステートを追加
 
     const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
@@ -108,8 +110,20 @@ const PostPage = () => {
             className="pb-[106px] min-h-screen py-0 px-0 overflow-x-hidden"
             style={{ maxWidth: "100%", backgroundColor: "#FFFFFF", color: "#000000" }} // 背景色: 白、テキスト色: 黒
         >
-            {/* ユーザー */}
-            <div className="flex items-center space-x-2 text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl font-roboto mb-2 mt-2 ml-5">
+            {/* 最上部 */}
+            <div className="flex items-center space-x-2 text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl font-roboto mb-2 mt-2 ml-1">
+
+                {/* 戻るボタン */}
+                <button
+                    onClick={() => router.back()}
+                    className="flex text-gray-500 py-2"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
+
+                {/* ユーザー */}
                 <Image
                     src={fullUrl(post.user_icon || '/static/images/icon_images/face-icon.svg')}
                     alt={post.user_name || 'ユーザー'}
@@ -210,7 +224,7 @@ const PostPage = () => {
                 <p className="text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl font-roboto mt-8 mb-4"><strong>採集情報</strong></p>
                 <div className="grid grid-cols-2">
                     <p>採集日時</p>
-                    <p className="-mx-16">
+                    <p className="-mx-8">
                         {
                             post.collected_at
                                 ? new Intl.DateTimeFormat('ja-JP', {
@@ -226,15 +240,15 @@ const PostPage = () => {
                     </p>
 
                     <p>採集場所</p>
-                    <p className="-mx-16">{post.location_name}</p>
+                    <p className="-mx-8">{post.location_name}</p>
                     <p>採集方法</p>
-                    <p className="-mx-16">{post.methods}</p>
+                    <p className="-mx-8">{post.methods}</p>
                     <p>採集方法 その他</p>
-                    <p className="-mx-16">{post.method_other}</p>
+                    <p className="-mx-8">{post.method_other}</p>
                     <p>樹木</p>
-                    <p className="-mx-16">{post.trees}</p>
+                    <p className="-mx-8">{post.trees}</p>
                     <p>樹木情報 その他</p>
-                    <p className="-mx-16">{post.tree_other}</p>
+                    <p className="-mx-8">{post.tree_other}</p>
                 </div>
                 {/* GoogleMap */}
                 <div
@@ -266,22 +280,22 @@ const PostPage = () => {
                 {/* 環境情報 */}
                 <p className="text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl font-roboto mt-16 mb-4"><strong>環境情報</strong></p>
                 <div className="grid grid-cols-2">
-                    <p>天気</p><p className="-mx-16">{post.whether}</p>
-                    <p>気温</p><p className="-mx-16">{post.temperature}℃</p>
-                    <p>遭遇した危険生物</p><p className="-mx-16">{post.dangerous_species_names}</p>
-                    <p>危険 その他</p><p className="-mx-16">{post.dangerous_species_other}</p>
+                    <p>天気</p><p className="-mx-8">{post.whether}</p>
+                    <p>気温</p><p className="-mx-8">{post.temperature}℃</p>
+                    <p>遭遇した危険生物</p><p className="-mx-8">{post.dangerous_species_names}</p>
+                    <p>危険 その他</p><p className="-mx-8">{post.dangerous_species_other}</p>
                     <p>人の混み具合</p>
-                    <p className="-mx-16">
+                    <p className="-mx-8">
                         {{
                             1: "少",
                             2: "中",
                             3: "多",
                         }[post.crowd_level] || "不明"}
                     </p>
-                    <p>周辺施設</p><p className="-mx-16">{post.facilities}</p>
-                    <p>周辺施設 その他</p><p className="-mx-16">{post.facility_other}</p>
+                    <p>周辺施設</p><p className="-mx-8">{post.facilities}</p>
+                    <p>周辺施設 その他</p><p className="-mx-8">{post.facility_other}</p>
                     <p>進入禁止エリア</p>
-                    <p className="-mx-16">
+                    <p className="-mx-8">
                         {post.is_restricted_area ? "対象" : "対象外"}
                     </p>
                 </div>
