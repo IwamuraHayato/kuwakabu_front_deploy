@@ -8,7 +8,7 @@ export default function PostPage() {
   const { data: session } = useSession();
   const userId = session?.user?.id; // ユーザーIDを取得
   const [rows, setRows] = useState([ 
-    { type: '', gender: '', count: '', maxSize: '' },
+    { type: '', gender: 'オス', count: '1', maxSize: '' },
   ]);
   const [photos, setPhotos] = useState<File[]>([]);
   const [collectionDate, setCollectionDate] = useState('');
@@ -48,6 +48,7 @@ export default function PostPage() {
   const handleGenderChange = (index: number, value: string) => {
     const updatedRows = [...rows];
     updatedRows[index].gender = value;
+    console.log(`Updated gender for row ${index}: ${value}`); // 性別が更新されているか確認
     setRows(updatedRows);
   };
 
@@ -59,8 +60,8 @@ export default function PostPage() {
   const fetchWeatherData = async (place: string) => {
     try {
       // Google Maps Geocoding APIキー
-      // const geocodingApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-      const geocodingApiKey = "AIzaSyBVlySFxUukdMeWL_vv6UcDV2ajXKht9so";
+      const geocodingApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+      // const geocodingApiKey = "AIzaSyBVlySFxUukdMeWL_vv6UcDV2ajXKht9so";
       if (!geocodingApiKey) {
         console.error('Google Maps APIキーが設定されていません');
         setWeather('APIキーがありません');
@@ -74,11 +75,17 @@ export default function PostPage() {
       );
       const geocodingData = await geocodingResponse.json();
   
+      // if (geocodingData.status !== 'OK' || !geocodingData.results.length) {
+      //   console.error('住所から緯度・経度を取得できませんでした:', geocodingData.error_message);
+      //   setWeather('住所が無効です');
+      //   setTemperature('住所が無効です');
+      //   return;
+      // }
       if (geocodingData.status !== 'OK' || !geocodingData.results.length) {
         console.error('住所から緯度・経度を取得できませんでした:', geocodingData.error_message);
-        setWeather('住所が無効です');
-        setTemperature('住所が無効です');
-        return;
+        setWeather('');
+        setTemperature('');
+        return; // 空の値を設定して終了
       }
   
       const { lat, lng } = geocodingData.results[0].geometry.location;
@@ -149,8 +156,8 @@ export default function PostPage() {
     console.log('FormData temperature:', temperature);
 
     try {
-      const response = await fetch('https://tech0-gen-8-step3-app-py-16.azurewebsites.net/api/posts', {
-      // const response = await fetch('http://127.0.0.1:5000/api/posts', {
+      // const response = await fetch('https://tech0-gen-8-step3-app-py-16.azurewebsites.net/api/posts', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/posts`, {
         method: 'POST',
         body: formData,
       });
