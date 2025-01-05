@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from 'next/image';
 import { differenceInYears, differenceInMonths } from 'date-fns';
 import { useSession } from "next-auth/react";
-
+import { useRouter } from 'next/navigation';
 
 interface Post {
   id: number;
@@ -24,6 +24,7 @@ const Page = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [error, setError] = useState<string | null>(null);
   const { data: session } = useSession();
+  const router = useRouter();
 
   // user_id を手動で設定
   // const user_id: number = 6;
@@ -39,7 +40,12 @@ const Page = () => {
         const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL; // 例: http://127.0.0.1:5000
         const response = await fetch(`${backendUrl}/mypage?user_id=${user_id}`);
         if (!response.ok) {
-          throw new Error(`ログインして下さい。: ${response.status}`);
+          //throw new Error(`ログインして下さい。: ${response.status}`);
+          setError(`ログインして下さい。: ${response.status}`);
+          setTimeout(() => {
+            router.push('/login'); // ログインページへ遷移
+          }, 2000); // 2秒後に遷移
+          return; // ここで処理を中断
         }
         const data: Post[] = await response.json();
         console.log("Fetched Posts Data:", data);
