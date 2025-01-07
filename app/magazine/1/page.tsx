@@ -30,22 +30,22 @@ const MagazinePage1 = () => {
                 {/* コンテンツセクション */}
                 <div className=" p-5">
                     {/* タイトル */}
-                    <h1 className="text-2xl sm:text-3xl md:text-3xl lg:text-4xl xl:text-4xl font-bold mb-2">服装・道具を準備しよう</h1>
+                    <h1 className="text-2xl sm:text-3xl md:text-3xl lg:text-4xl xl:text-4xl font-bold text-black mb-2">服装・道具を準備しよう</h1>
 
                     {/* 日時 */}
                     <p className="text-sm sm:text-base md:text-base lg:text-lg xl:text-lg font-roboto text-[#929292] mb-4">2024.12.18</p>
 
                     {/* 本文 */}
-                    <p className="text-sm sm:text-base md:text-base lg:text-lg xl:text-lg font-roboto leading-relaxed mb-4">
+                    <p className="text-sm sm:text-base md:text-base lg:text-lg xl:text-lg font-roboto text-black leading-relaxed mb-4">
                         カブクワ採集をするための服装や道具を紹介します。<br />
                         特に初心者や初めての場所に行くときは、事前にしっかりと準備をしておきましょう。
                     </p>
 
                     {/* 小見出し */}
-                    <h2 className="text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl font-bold mb-2">安全面にも配慮した服装</h2>
+                    <h2 className="text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl font-bold text-black mb-2">安全面にも配慮した服装</h2>
 
                     {/* 追加本文 */}
-                    <p className="text-sm sm:text-base md:text-base lg:text-lg xl:text-lg font-roboto leading-relaxed">
+                    <p className="text-sm sm:text-base md:text-base lg:text-lg xl:text-lg font-roboto text-black leading-relaxed">
                         クワカブ採集をするときのお勧めの服装を紹介します。<br />
                         カブクワ採集の時期は高温多湿な気候であることが多いため、通気性が良く肌を露出しない服装がお勧めです。<br />
                         ・帽子<br />
@@ -60,10 +60,10 @@ const MagazinePage1 = () => {
                         <br />
                     </p>
                     {/* 小見出し */}
-                    <h2 className="text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl font-bold mb-2">最低限の持ち物</h2>
+                    <h2 className="text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl font-bold text-black mb-2">最低限の持ち物</h2>
 
                     {/* 追加本文 */}
-                    <p className="text-sm sm:text-base md:text-base lg:text-lg xl:text-lg font-roboto leading-relaxed">
+                    <p className="text-sm sm:text-base md:text-base lg:text-lg xl:text-lg font-roboto text-black leading-relaxed">
                         最低限これだけはもっておきたい持ち物を紹介します。
                     </p>
 
@@ -74,7 +74,7 @@ const MagazinePage1 = () => {
                         className="w-full h-auto object-cover rounded-[4px] my-3"
                     />
                     {/* 追加本文 */}
-                    <p className="text-sm sm:text-base md:text-base lg:text-lg xl:text-lg font-roboto leading-relaxed">
+                    <p className="text-sm sm:text-base md:text-base lg:text-lg xl:text-lg font-roboto text-black leading-relaxed">
                         ・タオル<br />
                         ・水筒 or ペットボトル<br />
                         ・虫ケース or パーツケース<br />
@@ -87,10 +87,10 @@ const MagazinePage1 = () => {
                         <br />
                     </p>
                     {/* 小見出し */}
-                    <h2 className="text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl font-bold mb-2">その他あると安心な持ち物</h2>
+                    <h2 className="text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl font-bold text-black mb-2">その他あると安心な持ち物</h2>
 
                     {/* 追加本文 */}
-                    <p className="text-sm sm:text-base md:text-base lg:text-lg xl:text-lg font-roboto leading-relaxed">
+                    <p className="text-sm sm:text-base md:text-base lg:text-lg xl:text-lg font-roboto text-black leading-relaxed">
                         もっと準備万端にしたい場合はこんな物もあると安心です。ご参考に！<br />
                         ・虫除けスプレー<br />
                         ・スズメバチ避けスプレー<br />

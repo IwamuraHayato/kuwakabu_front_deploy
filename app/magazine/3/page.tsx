@@ -30,13 +30,13 @@ const MagazinePage1 = () => {
                 {/* コンテンツセクション */}
                 <div className=" p-5">
                     {/* タイトル */}
-                    <h1 className="text-2xl sm:text-3xl md:text-3xl lg:text-4xl xl:text-4xl font-bold mb-2">いろいろな採集方法の紹介</h1>
+                    <h1 className="text-2xl sm:text-3xl md:text-3xl lg:text-4xl xl:text-4xl font-bold text-black mb-2">いろいろな採集方法の紹介</h1>
 
                     {/* 日時 */}
                     <p className="text-sm sm:text-base md:text-base lg:text-lg xl:text-lg font-roboto text-[#929292] mb-4">2024.12.18</p>
 
                     {/* 本文 */}
-                    <p className="text-sm sm:text-base md:text-base lg:text-lg xl:text-lg font-roboto leading-relaxed mb-4">
+                    <p className="text-sm sm:text-base md:text-base lg:text-lg xl:text-lg font-roboto text-black leading-relaxed mb-4">
                         クワカブを採集する方法は、場所や時間帯、時期によっていろいろな選択肢があります。<br />
                         いろいろな採集方法やポイントをご紹介します。<br />
                         <br />
@@ -47,7 +47,7 @@ const MagazinePage1 = () => {
                     </p>
 
                     {/* 小見出し */}
-                    <h2 className="text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl font-bold mb-2">樹液</h2>
+                    <h2 className="text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl font-bold text-black mb-2">樹液</h2>
 
                     {/* サブ画像 */}
                     <img
@@ -56,7 +56,7 @@ const MagazinePage1 = () => {
                         className="w-full h-auto object-cover rounded-[4px] my-3"
                     />
                     {/* 追加本文 */}
-                    <p className="text-sm sm:text-base md:text-base lg:text-lg xl:text-lg font-roboto leading-relaxed">
+                    <p className="text-sm sm:text-base md:text-base lg:text-lg xl:text-lg font-roboto text-black leading-relaxed">
                         木の幹から染み出る樹液に集まるクワカブを探します。<br />
                         昼も夜も楽しめる方法ですが、カブクワが活発になる夜間の方がクワカブに出会いやすいです。<br />
                         発酵した樹液は甘酸っぱい独特の香りを森に放ちます。クヌギやコナラの木を見つけ、この香りのもとを探してみよう。また、蛾やカナブンが飛んでいる木の近くに樹液場があることが多いです。目、耳、鼻などの感覚に集中して樹液場を探そう。<br />
@@ -66,10 +66,10 @@ const MagazinePage1 = () => {
                     </p>
 
                     {/* 小見出し */}
-                    <h2 className="text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl font-bold mb-2">木蹴り</h2>
+                    <h2 className="text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl font-bold text-black mb-2">木蹴り</h2>
 
                     {/* 追加本文 */}
-                    <p className="text-sm sm:text-base md:text-base lg:text-lg xl:text-lg font-roboto leading-relaxed">
+                    <p className="text-sm sm:text-base md:text-base lg:text-lg xl:text-lg font-roboto text-black leading-relaxed">
                         木を蹴ってクワカブを落とす方法です。ポイントは力ずくで木を揺らすのではなく、鳥が木に止まったような振動を木全体に伝えること。力まずにトントンと2-3回の振動を木に伝えます。<br />
                         木で休んでいるノコギリクワガタやミヤマクワガタに有効です。<br />
                         昼も夜も楽しめますが、落ちてきた虫を探すことに苦労しますので昼にお勧めの方法です。<br />
@@ -78,7 +78,7 @@ const MagazinePage1 = () => {
                     </p>
 
                     {/* 小見出し */}
-                    <h2 className="text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl font-bold mb-2">果実トラップ</h2>
+                    <h2 className="text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl font-bold text-black mb-2">果実トラップ</h2>
 
                     {/* サブ画像 */}
                     <img
@@ -87,7 +87,7 @@ const MagazinePage1 = () => {
                         className="w-full h-auto object-cover rounded-[4px] my-3"
                     />
                     {/* 追加本文 */}
-                    <p className="text-sm sm:text-base md:text-base lg:text-lg xl:text-lg font-roboto leading-relaxed">
+                    <p className="text-sm sm:text-base md:text-base lg:text-lg xl:text-lg font-roboto text-black leading-relaxed">
                         発酵させた果実を森に仕掛け、そこに集まる虫を採集する方法です。<br />
                         腐らせたバナナをネットに入れて木に結びつける方法がメジャーです。人が食べるバナナよりも十分ドロドロに発酵が進んだ状態の方が虫は好みます。発酵を進めるために、果実を焼酎漬けにする工夫や、ペットボトルを使って虫が抜け出せないトラップ型にする工夫をすることもあります。<br />
                         クワカブが活発な夜間～明け方に回収に行くのが良いでしょう。<br />
@@ -96,7 +96,7 @@ const MagazinePage1 = () => {
                     </p>
 
                     {/* 小見出し */}
-                    <h2 className="text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl font-bold mb-2">ライトトラップ</h2>
+                    <h2 className="text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl font-bold text-black mb-2">ライトトラップ</h2>
 
                     {/* サブ画像 */}
                     <img
@@ -105,7 +105,7 @@ const MagazinePage1 = () => {
                         className="w-full h-auto object-cover rounded-[4px] my-3"
                     />
                     {/* 追加本文 */}
-                    <p className="text-sm sm:text-base md:text-base lg:text-lg xl:text-lg font-roboto leading-relaxed">
+                    <p className="text-sm sm:text-base md:text-base lg:text-lg xl:text-lg font-roboto text-black leading-relaxed">
                         夜間に光に集まるクワカブを採集する方法です。<br />
                         画像のように専用装置を使っておびき寄せます。非常に強力で数時間で多くの虫が集まってきます。禁止されている場所もありますので、事前に良く確認しましょう。<br />
                         その他にも、自動販売機やコンビニ、街灯などの光に集まる虫を拾って回る方法もあります。<br />
@@ -114,7 +114,7 @@ const MagazinePage1 = () => {
                     </p>
 
                     {/* 小見出し */}
-                    <h2 className="text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl font-bold mb-2">朽木探索</h2>
+                    <h2 className="text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl font-bold text-black mb-2">朽木探索</h2>
 
                     {/* サブ画像 */}
                     <img
@@ -123,7 +123,7 @@ const MagazinePage1 = () => {
                         className="w-full h-auto object-cover rounded-[4px] my-3"
                     />
                     {/* 追加本文 */}
-                    <p className="text-sm sm:text-base md:text-base lg:text-lg xl:text-lg font-roboto leading-relaxed">
+                    <p className="text-sm sm:text-base md:text-base lg:text-lg xl:text-lg font-roboto text-black leading-relaxed">
                         成虫になって朽木から出てきたクワガタを採集する方法です。<br />
                         クヌギやコナラの倒木があったら、夏の夜中に周辺を良く探してみましょう。成虫になったばかりのクワガタに出会えるかも！？<br />
                         ポイントは、クワガタが産卵場として好む場所と木の状態を見極めることです。湿気があり、キノコや白色腐朽菌（白いカビのようなもの）の寄生した朽木が狙い目です。<br />
@@ -131,7 +131,7 @@ const MagazinePage1 = () => {
                     </p>
 
                     {/* 小見出し */}
-                    <h2 className="text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl font-bold mb-2">材割</h2>
+                    <h2 className="text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl font-bold text-black mb-2">材割</h2>
 
                     {/* サブ画像 */}
                     <img
@@ -140,7 +140,7 @@ const MagazinePage1 = () => {
                         className="w-full h-auto object-cover rounded-[4px] my-3"
                     />
                     {/* 追加本文 */}
-                    <p className="text-sm sm:text-base md:text-base lg:text-lg xl:text-lg font-roboto leading-relaxed">
+                    <p className="text-sm sm:text-base md:text-base lg:text-lg xl:text-lg font-roboto text-black leading-relaxed">
                         上記の朽木探索で見つけた朽木を壊し、中からクワガタの幼虫やサナギ、成虫を採集する方法です。<br />
                         すべての季節で楽しめます。<br />
                         朽木の選定や壊し方など、知識と経験が必要になります。<br />
