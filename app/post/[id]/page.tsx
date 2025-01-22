@@ -91,8 +91,14 @@ const PostPage = () => {
         return <div>読み込み中...</div>;
     }
 
-    const fullUrl = (relativePath: string) =>
-        `${backendUrl}${relativePath.startsWith("/") ? relativePath : `/${relativePath}`}`;
+    const fullUrl = (relativePath: string) => {
+        // 完全なURL (http または https で始まる) の場合はそのまま返す
+        if (relativePath.startsWith("http://") || relativePath.startsWith("https://")) {
+          return relativePath;
+        }
+        // 相対パスの場合は "/" を付加
+        return `${relativePath.startsWith("/") ? relativePath : `/${relativePath}`}`;
+      };
 
     // カルーセル設定
     const sliderSettings = {

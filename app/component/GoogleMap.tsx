@@ -171,10 +171,13 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
       const data: PostDetails = await res.json();
 
       // バックエンドURLを補完して画像パスを修正
-      data.user.icon = `${process.env.NEXT_PUBLIC_API_BASE_URL}${data.user.icon}`;
-      data.image_url = `${process.env.NEXT_PUBLIC_API_BASE_URL}${data.image_url}`;
+      // data.user.icon = `${process.env.NEXT_PUBLIC_API_BASE_URL}${data.user.icon}`;
+      // data.image_url = `${process.env.NEXT_PUBLIC_API_BASE_URL}${data.image_url}`;
       // data.user.icon = `https://tech0-gen-8-step3-app-py-16.azurewebsites.net${data.user.icon}`;
       // data.image_url = `https://tech0-gen-8-step3-app-py-16.azurewebsites.net${data.image_url}`;
+      // blobから画像データを取得
+      data.user.icon = `${data.user.icon}`;
+      data.image_url = `${data.image_url}`;
 
 
       setSelectedPost(data);
